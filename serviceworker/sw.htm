@@ -2,7 +2,17 @@
 <html>
 <head>
 <title>SW Test</title>
-<script src="sw.js"></script>
+<script>
+  navigator.serviceWorker.register('sw.js', {scope: '*'}).then(
+    function(worker) {
+      console.log('Success?');
+      console.log(worker);
+    },
+    function(reason) {
+      console.log('Failure?');
+      console.log(reason);
+    });
+</script>
 </head>
 <body>
 SW Test
