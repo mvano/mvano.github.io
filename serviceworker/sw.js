@@ -1,5 +1,8 @@
 function handler(event) {
-  console.log(event);
+  console.log(event.type);
+  if (event.type == 'push') {
+    console.log(event.data);
+  }
 }
 
 ['activate', 'install', 'push'].forEach(function(type) {
@@ -7,4 +10,3 @@ function handler(event) {
 });
 
 console.log('Logged from inside SW');
-console.log(self);
