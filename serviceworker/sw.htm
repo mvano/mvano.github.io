@@ -3,14 +3,21 @@
 <head>
 <title>SW Test</title>
 <script>
-  navigator.serviceWorker.register('sw.js', {scope: '*'}).then(
+  navigator.serviceWorker.register('sw_empty.js', {scope: '/empty/*'}).then(
     function(worker) {
-      console.log('Success?');
-      console.log(worker);
-      navigator.push.register('fake_sender_id');
+      console.log('Registration success for empty sw.');
     },
     function(reason) {
-      console.log('Failure?');
+      console.log('Registration failure for empty sw.');
+      console.log(reason);
+    });
+  navigator.serviceWorker.register('sw_push.js', {scope: '*'}).then(
+    function(worker) {
+      console.log('Registration success for push sw.');
+      navigator.push.register('fake_push_sender_id');
+    },
+    function(reason) {
+      console.log('Registration failure for push sw.');
       console.log(reason);
     });
 </script>
