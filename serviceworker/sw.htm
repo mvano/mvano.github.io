@@ -7,6 +7,7 @@
     function(worker) {
       console.log('Success?');
       console.log(worker);
+      navigator.push.register('fake_sender_id');
     },
     function(reason) {
       console.log('Failure?');
