@@ -14,7 +14,11 @@
   navigator.serviceWorker.register('sw_push.js', {scope: '*'}).then(
     function(worker) {
       console.log('Registration success for push sw.');
-      navigator.push.register('fake_push_sender_id');
+      navigator.push.register('fake_push_sender_id').then(function(pushRegistration) {
+        console.log(pushRegistration);
+      }, function(e) {
+        console.log(e);
+      });
     },
     function(reason) {
       console.log('Registration failure for push sw.');
