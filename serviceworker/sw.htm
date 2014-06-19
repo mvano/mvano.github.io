@@ -20,7 +20,7 @@
       console.log('Registration failure for empty sw.');
       console.log(reason);
     });
-  navigator.serviceWorker.register('sw_push.js', {scope: '*'}).then(
+  navigator.serviceWorker.register('sw_push.js', {scope: 'https://mvano.github.io/serviceworker/*'}).then(
     function(worker) {
       console.log('Registration success for push sw.');
       registerPush();
