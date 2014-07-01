@@ -4,6 +4,7 @@
 <title>SW Test</title>
 <script>
   function registerPush() {
+    console.log('Registering with the Push API.');
     navigator.push.register('970389620042').then(function(pushRegistration) {
       console.log(pushRegistration);
       console.log(pushRegistration.pushRegistrationId);
