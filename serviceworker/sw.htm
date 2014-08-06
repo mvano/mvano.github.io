@@ -13,15 +13,15 @@
       console.log(e);
     });
   }
-  navigator.serviceWorker.register('sw_empty.js', {scope: '/empty/*'}).then(
-    function(worker) {
-      console.log('Registration success for empty sw.');
-    },
-    function(reason) {
-      console.log('Registration failure for empty sw.');
-      console.log(reason);
-    });
-  navigator.serviceWorker.register('sw_push.js', {scope: 'https://mvano.github.io/serviceworker/*'}).then(
+  // navigator.serviceWorker.register('sw_empty.js', {scope: '/empty/*'}).then(
+  //   function(worker) {
+  //     console.log('Registration success for empty sw.');
+  //   },
+  //   function(reason) {
+  //     console.log('Registration failure for empty sw.');
+  //     console.log(reason);
+  //   });
+  navigator.serviceWorker.register('sw_push.js', {scope: 'https://mvano.github.io/serviceworker/'}).then(
     function(worker) {
       console.log('Registration success for push sw.');
       registerPush();
