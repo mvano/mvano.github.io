@@ -5,10 +5,10 @@
 <link rel="manifest" href="manifest.json">
 <script>
   function registerPush() {
-    // senderId 970389620042
     console.log('Registering with the Push API.');
     navigator.serviceWorker.ready.then(
       function(serviceWorkerRegistration) {
+        if (serviceWorkerRegistration.pushManager) {
         serviceWorkerRegistration.pushManager.register().then(
           function(pushRegistration) {
             console.log(pushRegistration.pushRegistrationId);
@@ -16,6 +16,15 @@
           }, function(error) {
             console.log(error);
           });
+        } else {
+        navigator.push.register().then(
+          function(pushRegistration) {
+            console.log(pushRegistration.pushRegistrationId);
+            console.log(pushRegistration.pushEndpoint);
+          }, function(error) {
+            console.log(error);
+          });
+        }
       }, function(error) {
         console.log(error);
       });
