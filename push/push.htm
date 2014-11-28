@@ -1,0 +1,49 @@
+<DOCTYPE html>
+<html>
+<head>
+<title>SW Test</title>
+<script>
+  function registerPush() {
+    // senderId 970389620042
+    console.log('Registering with the Push API.');
+    navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+      serviceWorkerRegistration.pushManager.register().then(
+        function(pushRegistration) {
+          console.log(pushRegistration.pushRegistrationId);
+          console.log(pushRegistration.pushEndpoint);
+          // The push registration details needed by the application server to push
+          // messages to the push service are now available, and can be sent to the
+          // application server using, for example, an XMLHttpRequest.
+        }, function(error) {
+          // During development it often helps to log errors to the console. In a
+          // production environment it might make sense to also report information
+          // about errors back to the application server.
+          console.log(error);
+        }
+      });
+    });
+  }
+  // navigator.serviceWorker.register('sw_empty.js', {scope: '/empty/*'}).then(
+  //   function(worker) {
+  //     console.log('Registration success for empty sw.');
+  //   },
+  //   function(reason) {
+  //     console.log('Registration failure for empty sw.');
+  //     console.log(reason);
+  //   });
+  navigator.serviceWorker.register('sw_push.js', {scope: 'https://mvano.github.io/serviceworker/'}).then(
+    function(worker) {
+      console.log(worker);
+      console.log('Registration success for push sw.');
+      registerPush();
+    },
+    function(reason) {
+      console.log('Registration failure for push sw.');
+      console.log(reason);
+    });
+</script>
+</head>
+<body>
+SW Test
+</body>
+</html>
