@@ -19,7 +19,7 @@
         console.log(error);
       });
   }
-  navigator.serviceWorker.register('sw_push.js', {scope: 'https://mvano.github.io/serviceworker/'}).then(
+  navigator.serviceWorker.register('sw_push.js', {scope: 'https://mvano.github.io/push/'}).then(
     function(worker) {
       console.log(worker);
       console.log('Registration success for push sw.');
