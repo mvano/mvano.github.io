@@ -9,21 +9,21 @@
     navigator.serviceWorker.ready.then(
       function(serviceWorkerRegistration) {
         if (serviceWorkerRegistration.pushManager) {
-        serviceWorkerRegistration.pushManager.register().then(
-          function(pushRegistration) {
-            console.log(pushRegistration.pushRegistrationId);
-            console.log(pushRegistration.pushEndpoint);
-          }, function(error) {
-            console.log(error);
-          });
+          serviceWorkerRegistration.pushManager.register().then(
+            function(pushRegistration) {
+              console.log(pushRegistration.pushRegistrationId);
+              console.log(pushRegistration.pushEndpoint);
+            }, function(error) {
+              console.log(error);
+            });
         } else {
-        navigator.push.register().then(
-          function(pushRegistration) {
-            console.log(pushRegistration.pushRegistrationId);
-            console.log(pushRegistration.pushEndpoint);
-          }, function(error) {
-            console.log(error);
-          });
+          navigator.push.register().then(
+            function(pushRegistration) {
+              console.log(pushRegistration.pushRegistrationId);
+              console.log(pushRegistration.pushEndpoint);
+            }, function(error) {
+              console.log(error);
+            });
         }
       }, function(error) {
         console.log(error);
