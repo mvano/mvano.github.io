@@ -51,8 +51,11 @@
       // Allow My App (example.com) to open all web+myapp links
       navigator.registerProtocolHandler('web+myapp', 'http://jsbin.com/?fake=%s', 'My App');
       
+      // Request MIDI access.
+      if ('requestMIDIAccess' in navigator) navigator.requestMIDIAccess();
+
       // Open a window to this same page.
-      window.open(location.url);
+      //window.open(location.url);
     }
     //window.addEventListener('load', trigger, false);
   </script>
