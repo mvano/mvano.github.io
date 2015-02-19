@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+  <title>pushState / replaceState kills infobars</title>
+  <script>
+    function nullFunction() {
+      // Do nothing.
+    }
+    
+    if (!('getUserMedia' in navigator)) {
+      navigator.getUserMedia =
+          navigator.mozGetUserMedia || navigator.webkitGetUserMedia || nullFunction;
+    }
+    
+    if (!('Notificaiton' in window) && 'webkitNotifications' in window) {
+      window.Notification = window.webkitNotifications;
+    }
+    
+    var q = Date.now();
+
+    function pushState() {
+      history.pushState({}, 'pushState ' + q, '?q=' + q);
+      q++;
+    }
+
+    function replaceState() {
+      history.replaceState({}, 'replaceState ' + q, '?q=' + q);
+      q++;
+    }
+
+    function trigger() {
+      // https://www.example.com wants to use your camera and microphone
+      navigator.getUserMedia({'video': true}, nullFunction, nullFunction);
+      navigator.getUserMedia({'audio': true}, nullFunction, nullFunction);
+            
+      // Allow example.com to show notifications
+      if ('Notification' in window) Notification.requestPermission();
+    
+      // example.com wants to use your computer's locatuion
+      navigator.geolocation.getCurrentPosition(function() {});
+
+      // example.com wants to permanently store date on your local computer
+      navigator.webkitPersistentStorage.requestQuota(1024*1024);
+    
+      // This sites is attempting to download multiple files. Do you want to allow this?    
+      document.getElementById('a').click();    
+      document.getElementById('b').click();
+    
+      // Allow My App (example.com) to open all web+myapp links
+      navigator.registerProtocolHandler('web+myapp', 'http://jsbin.com/?fake=%s', 'My App');
+      
+      // Open a window to this same page.
+      window.open(location.url);
+    }
+    //window.addEventListener('load', trigger, false);
+  </script>
+</head>
+<body>
+  <p>
+  <button onclick="trigger()">trigger infobars</button>
+  </p>
+  <p>
+  <button onclick="pushState()">history.pushState</button>
+  <button onclick="replaceState()">history.replaceState</button>
+  </p>
+  <p>Lorem ipsum is een tekst die vaak door drukkers, zetters, grafisch ontwerpers en dergelijken gebruikt wordt om te kijken hoe een tekst of lettertype eruit ziet, bijvoorbeeld in letterproeven, op een webpagina of op een kaft van een boek.</p>
+  <div>
+    <a href="data:application/octet-stream," download="a.txt" id=a></a>
+    <a href="data:application/octet-stream," download="b.txt" id=b></a>
+  </div>
+</body>
+</html>
