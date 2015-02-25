@@ -10,11 +10,13 @@
       <button id="permission">Request permission</button>
       <button id="show" disabled>Show notification</button>
       <button id="show2" disabled>SWR.showNotification()</button>
+      <button id="show3" disabled>SWR.showNotification() with tag</button>
     </div>
     <script>
       var output = document.getElementById('output');
-      var button  = document.getElementById('show'),
-          button2 = document.getElementById('show2');
+      var button  = document.getElementById('show');
+      var button2 = document.getElementById('show2');
+      var button3 = document.getElementById('show3');
       var permission = document.getElementById('permission');
 
       permission.addEventListener('click', function() {
@@ -57,6 +59,21 @@
           registration.showNotification('SWR.showNotification()', {
             icon: '/tests/icons/5.png',
             body: 'Whoohah'
+          });
+        });
+
+        button3.disabled = false;
+        button3.addEventListener('click', function() {
+          console.log(registration);
+          if (!registration.__proto__.hasOwnProperty('showNotification')) {
+            alert('ServiceWorkerRegistration.showNotification() is not exposed yet.');
+            return;
+          }
+
+          registration.showNotification('SWR.showNotification()', {
+            icon: '/tests/icons/5.png',
+            body: 'This notification has a tag so should not have duplicates.',
+            tag: 'TEST_TAG_VALUE'
           });
         });
 
