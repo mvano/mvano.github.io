@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Service Workers notification test-page</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <pre id="output">Loading...</pre>
+    <div>
+      <button id="permission">Request permission</button>
+      <button id="show" disabled>Show notification</button>
+      <button id="show2" disabled>SWR.showNotification()</button>
+    </div>
+    <script>
+      var output = document.getElementById('output');
+      var button  = document.getElementById('show'),
+          button2 = document.getElementById('show2');
+      var permission = document.getElementById('permission');
+
+      permission.addEventListener('click', function() {
+        Notification.requestPermission(function (granted) {
+          alert('Permission status: ' + granted);
+        });
+      });
+
+      window.addEventListener('message', function(e) {
+        output.textContent += '\n[Worker] ' + e.data;
+      });
+
+      navigator.serviceWorker.getRegistration().then(function (registration) {
+	//if (registration)
+        //  return registration.unregister();
+      }).then(function () {
+
+      navigator.serviceWorker.register('sw-notification.js').then(function (registration) {
+        output.textContent = 'Registered.';
+
+        var target = registration.installing || registration.waiting || registration.active;
+        if (!target) {
+          output.textContent = 'Cannot find message target.';
+          return;
+        }
+
+        button.disabled = false;
+        button.addEventListener('click', function() {
+          target.postMessage('SHOW');
+        });
+
+        button2.disabled = false;
+        button2.addEventListener('click', function() {
+          console.log(registration);
+          if (!registration.__proto__.hasOwnProperty('showNotification')) {
+            alert('ServiceWorkerRegistration.showNotification() is not exposed yet.');
+            return;
+          }
+
+          registration.showNotification('SWR.showNotification()', {
+            icon: '/tests/icons/5.png',
+            body: 'Whoohah'
+          });
+        });
+
+      }, function(error) {
+        output.textContent = 'Error: ' + error.message;
+      });
+	
+     }).catch(function (error) {
+	output.textContent = 'Promise error: ' + error.message;
+     });
+
+    </script>
+  </body>
+</html>
+
