@@ -33,6 +33,18 @@ function showNotification(tag) {
   });
 }
 
+function setCookie() {
+  document.cookie = 'test=testCookieValue';
+}
+
+function setLocalStorage() {
+  if ('localStorage' in window) {
+    console.log('No support for localStorage');
+    return;
+  }
+  localStorage.setItem('test', 'testLocalStorageValue');
+}
+
 function trigger() {
   // https://www.example.com wants to use your camera and microphone
   navigator.getUserMedia({'video': true}, nullFunction, nullFunction);
@@ -67,6 +79,8 @@ function trigger() {
   <p><button onclick="trigger()">trigger many infobars</button></p>
   <p><button onclick="showNotification()">show notification without tag</button></p>
   <p><button onclick="showNotification('tag')">show notification with tag</button></p>
+  <p><button onclick="setCookie()">set a cookie</button></p>
+  <p><button onclick="setLocalStorage()">put data in localStorage</button></p>
   <p>Lorem ipsum is een tekst die vaak door drukkers, zetters, grafisch ontwerpers en dergelijken gebruikt wordt om te kijken hoe een tekst of lettertype eruit ziet, bijvoorbeeld in letterproeven, op een webpagina of op een kaft van een boek.</p>
 <p>Le faux-texte (également appelé lorem ipsum, lipsum) est, en imprimerie, un texte sans valeur sémantique, permettant de remplir des pages lors d'une mise en forme afin d'en calibrer le contenu en l'absence du texte définitif.</p>
   <div>
