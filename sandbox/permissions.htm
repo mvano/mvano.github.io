@@ -26,7 +26,7 @@ function showNotification() {
   navigator.serviceWorker.register('empty-sw.js').then(function(registration) {
     return navigator.serviceWorker.ready;
   }).then(function(registration) {
-    registration.showNotification('Note: timestamp is ' + Date.now();
+    registration.showNotification('Note: timestamp is ' + Date.now());
   }).catch(function(e) {
     console.log(e);
   });
@@ -51,7 +51,7 @@ function trigger() {
   document.getElementById('b').click();
 
   // Allow My App (example.com) to open all web+myapp links
-  navigator.registerProtocolHandler('web+myapp', 'http://jsbin.com/?fake=%s', 'My App');
+  navigator.registerProtocolHandler('web+myapp', location.origin + '?fake=%s', 'My App');
 
   // Request MIDI access.
   if ('requestMIDIAccess' in navigator) navigator.requestMIDIAccess();
