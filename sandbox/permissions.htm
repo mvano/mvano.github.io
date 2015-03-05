@@ -18,15 +18,16 @@ if (!('Notification' in window) && 'webkitNotifications' in window) {
   window.Notification = window.webkitNotifications;
 }
 
-function showNotification() {
+function showNotification(tag) {
   if (!navigator.serviceWorker || !window.ServiceWorkerRegistration.prototype.showNotification) {
   	console.log('No service worker based notifications.');
     return;
   }
+  tag = tag || '';
   navigator.serviceWorker.register('empty-sw.js').then(function(registration) {
     return navigator.serviceWorker.ready;
   }).then(function(registration) {
-    registration.showNotification('Note: timestamp is ' + Date.now());
+    registration.showNotification('Note: timestamp is ' + Date.now(), { tag: tag });
   }).catch(function(e) {
     console.log(e);
   });
@@ -63,12 +64,9 @@ function trigger() {
 </script>
 </head>
 <body>
-  <p>
-    <button onclick="trigger()">trigger many infobars</button>
-  </p>
-  <p>
-    <button onclick="showNotification()">show notification</button>
-  </p>
+  <p><button onclick="trigger()">trigger many infobars</button></p>
+  <p><button onclick="showNotification()">show notification without tag</button></p>
+  <p><button onclick="showNotification('tag')">show notification wit tag</button></p>
   <p>Lorem ipsum is een tekst die vaak door drukkers, zetters, grafisch ontwerpers en dergelijken gebruikt wordt om te kijken hoe een tekst of lettertype eruit ziet, bijvoorbeeld in letterproeven, op een webpagina of op een kaft van een boek.</p>
 <p>Le faux-texte (également appelé lorem ipsum, lipsum) est, en imprimerie, un texte sans valeur sémantique, permettant de remplir des pages lors d'une mise en forme afin d'en calibrer le contenu en l'absence du texte définitif.</p>
   <div>
