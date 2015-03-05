@@ -3,70 +3,71 @@
 <head>
 <meta charset=utf-8 />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>pushState / replaceState kills infobars</title>
-  <script>
-    function nullFunction() {
-      // Do nothing.
-    }
-    
-    if (!('getUserMedia' in navigator)) {
-      navigator.getUserMedia =
-          navigator.mozGetUserMedia || navigator.webkitGetUserMedia || nullFunction;
-    }
-    
-    if (!('Notificaiton' in window) && 'webkitNotifications' in window) {
-      window.Notification = window.webkitNotifications;
-    }
-    
-    var q = Date.now();
+<title>permissions and notifications</title>
+<script>
+function nullFunction() {
+  // Do nothing.
+}
 
-    function pushState() {
-      history.pushState({}, 'pushState ' + q, '?q=' + q);
-      q++;
-    }
+if (!('getUserMedia' in navigator)) {
+  navigator.getUserMedia =
+      navigator.mozGetUserMedia || navigator.webkitGetUserMedia || nullFunction;
+}
 
-    function replaceState() {
-      history.replaceState({}, 'replaceState ' + q, '?q=' + q);
-      q++;
-    }
+if (!('Notification' in window) && 'webkitNotifications' in window) {
+  window.Notification = window.webkitNotifications;
+}
 
-    function trigger() {
-      // https://www.example.com wants to use your camera and microphone
-      navigator.getUserMedia({'video': true}, nullFunction, nullFunction);
-      navigator.getUserMedia({'audio': true}, nullFunction, nullFunction);
-            
-      // Allow example.com to show notifications
-      if ('Notification' in window) Notification.requestPermission();
-    
-      // example.com wants to use your computer's locatuion
-      navigator.geolocation.getCurrentPosition(function() {});
+function showNotification() {
+  if (!navigator.serviceWorker || !window.ServiceWorkerRegistration.prototype.showNotification) {
+  	console.log('No service worker based notifications.');
+    return;
+  }
+  navigator.serviceWorker.register('empty-sw.js').then(function(registration) {
+    return navigator.serviceWorker.ready;
+  }).then(function(registration) {
+    registration.showNotification('Note: timestamp is ' + Date.now();
+  }).catch(function(e) {
+    console.log(e);
+  });
+}
 
-      // example.com wants to permanently store date on your local computer
-      navigator.webkitPersistentStorage.requestQuota(1024*1024);
-    
-      // This sites is attempting to download multiple files. Do you want to allow this?    
-      document.getElementById('a').click();    
-      document.getElementById('b').click();
-    
-      // Allow My App (example.com) to open all web+myapp links
-      navigator.registerProtocolHandler('web+myapp', 'http://jsbin.com/?fake=%s', 'My App');
-      
-      // Request MIDI access.
-      if ('requestMIDIAccess' in navigator) navigator.requestMIDIAccess();
+function trigger() {
+  // https://www.example.com wants to use your camera and microphone
+  navigator.getUserMedia({'video': true}, nullFunction, nullFunction);
+  navigator.getUserMedia({'audio': true}, nullFunction, nullFunction);
 
-      // Open a window to this same page.
-      //window.open(location.url);
-    }
-    //window.addEventListener('load', trigger, false);
-  </script>
+  // Allow example.com to show notifications
+  if ('Notification' in window) Notification.requestPermission();
+
+  // example.com wants to use your computer's location
+  navigator.geolocation.getCurrentPosition(function() {});
+
+  // example.com wants to permanently store date on your local computer
+  navigator.webkitPersistentStorage.requestQuota(1024*1024);
+
+  // This sites is attempting to download multiple files. Do you want to allow this?
+  document.getElementById('a').click();
+  document.getElementById('b').click();
+
+  // Allow My App (example.com) to open all web+myapp links
+  navigator.registerProtocolHandler('web+myapp', 'http://jsbin.com/?fake=%s', 'My App');
+
+  // Request MIDI access.
+  if ('requestMIDIAccess' in navigator) navigator.requestMIDIAccess();
+
+  // Open a window to this same page.
+  //window.open(location.url);
+}
+//window.addEventListener('load', trigger, false);
+</script>
 </head>
 <body>
   <p>
-  <button onclick="trigger()">trigger infobars</button>
+    <button onclick="trigger()">trigger many infobars</button>
   </p>
   <p>
-  <button onclick="pushState()">history.pushState</button>
-  <button onclick="replaceState()">history.replaceState</button>
+    <button onclick="showNotification()">show notification</button>
   </p>
   <p>Lorem ipsum is een tekst die vaak door drukkers, zetters, grafisch ontwerpers en dergelijken gebruikt wordt om te kijken hoe een tekst of lettertype eruit ziet, bijvoorbeeld in letterproeven, op een webpagina of op een kaft van een boek.</p>
 <p>Le faux-texte (également appelé lorem ipsum, lipsum) est, en imprimerie, un texte sans valeur sémantique, permettant de remplir des pages lors d'une mise en forme afin d'en calibrer le contenu en l'absence du texte définitif.</p>
