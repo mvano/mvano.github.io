@@ -51,7 +51,7 @@ function showNotification(tag) {
 }
 
 function setCookie() {
-  docCookies.setItem('default cookie', String(Date.now()));
+  docCookies.setItem('session cookie', String(Date.now()));
   docCookies.setItem('persistent cookie', String(Date.now()), Infinity);
   displayCookie();
 }
