@@ -151,8 +151,9 @@ window.addEventListener('load', onloadHandler);
   <p><button onclick="showNotification('tag')">show notification with tag</button></p>
 
   <p>
-    <button onclick="setCookie()">set cookie</button>
+    <button onclick="setCookie()">write cookie</button>
     <button onclick="clearCookie()">clear cookie</button>
+    <button onclick="displayCookie()">read cookie</button>
   </p>
   <p><b>document.cookie:</b></p>
   <p id="cookieDisplay" class="console"></p>
@@ -160,6 +161,7 @@ window.addEventListener('load', onloadHandler);
   <p>
     <button onclick="setLocalStorage()">write localStorage</button>
     <button onclick="clearLocalStorage()">clear localStorage</button>
+    <button onclick="displayLocalStorage()">read localStorage</button>
   </p>
   <p><b>window.localStorage:</b></p>
   <p id="localStorageDisplay" class="console"></p>
