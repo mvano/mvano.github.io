@@ -51,6 +51,11 @@ function setCookie() {
   displayCookie();
 }
 
+function clearCookie() {
+  document.cookie = '';
+  displayCookie();
+}
+
 function displayCookie() {
  document.getElementById('cookieDisplay').textContent = document.cookie || '<empty>';
 }
@@ -61,6 +66,16 @@ function setLocalStorage() {
     return;
   }
   localStorage.setItem('time', String(Date.now()));
+  displayLocalStorage();
+}
+
+function clearLocalStorage() {
+  if (!('localStorage' in window)) {
+    console.log('No support for localStorage');
+    displayLocalStorage();
+    return;
+  }
+  localStorage.clear();
   displayLocalStorage();
 }
 
@@ -107,8 +122,8 @@ function trigger() {
 }
 
 function onloadHandler() {
-  displayCookie();
-  displayLocalStorage();
+  setCookie();
+  setLocalStorage();
 }
 
 window.addEventListener('load', onloadHandler);
@@ -119,11 +134,17 @@ window.addEventListener('load', onloadHandler);
   <p><button onclick="showNotification()">show notification without tag</button></p>
   <p><button onclick="showNotification('tag')">show notification with tag</button></p>
 
-  <p><button onclick="setCookie()">set cookie</button></p>
+  <p>
+    <button onclick="setCookie()">set cookie</button>
+    <button onclick="clearCookie()">clear cookie</button>
+  </p>
   <p><b>document.cookie:</b></p>
   <p id="cookieDisplay" class="console"></p>
 
-  <p><button onclick="setLocalStorage()">put data in localStorage</button></p>
+  <p>
+    <button onclick="setLocalStorage()">write localStorage</button>
+    <button onclick="clearLocalStorage()">clear localStorage</button>
+  </p>
   <p><b>window.localStorage:</b></p>
   <p id="localStorageDisplay" class="console"></p>
 
