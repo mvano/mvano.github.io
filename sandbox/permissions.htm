@@ -4,6 +4,19 @@
 <meta charset=utf-8 />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>permissions and notifications</title>
+<style>
+body {
+  font: 11px/1.3 sans-serif;
+}
+.console {
+  font: 10px/1.2 Inconsolata, monospace;
+  color: #33f;
+}
+.lipsum {
+  font-style: italic;
+  color: #999;
+}
+</style>
 <script>
 function nullFunction() {
   // Do nothing.
@@ -35,6 +48,11 @@ function showNotification(tag) {
 
 function setCookie() {
   document.cookie = 'test=testCookieValue';
+  displayCookie();
+}
+
+function displayCookie() {
+ document.getElementById('cookieDisplay').textContent = document.cookie || '<empty>';
 }
 
 function setLocalStorage() {
@@ -43,6 +61,21 @@ function setLocalStorage() {
     return;
   }
   localStorage.setItem('test', 'testLocalStorageValue');
+  displayLocalStorage();
+}
+
+function displayLocalStorage() {
+  if ('localStorage' in window) {
+    console.log('No support for localStorage');
+    document.getElementById('localStorageDisplay').textContent = '<not supported>';
+    return;
+  }
+  var value = '';
+  for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    value += key + ' = ' + localStorage.getItem(key) + '\n';
+  }
+  document.getElementById('localStorageDisplay').textContent = value || '<empty>';
 }
 
 function trigger() {
@@ -72,17 +105,30 @@ function trigger() {
   // Open a window to this same page.
   //window.open(location.url);
 }
-//window.addEventListener('load', trigger, false);
+
+function onloadHandler() {
+  displayCookie();
+  displayLocalStorage();
+}
+
+window.addEventListener('load', onloadHandler);
 </script>
 </head>
 <body>
   <p><button onclick="trigger()">trigger many infobars</button></p>
   <p><button onclick="showNotification()">show notification without tag</button></p>
   <p><button onclick="showNotification('tag')">show notification with tag</button></p>
-  <p><button onclick="setCookie()">set a cookie</button></p>
+
+  <p><button onclick="setCookie()">set cookie</button></p>
+  <p><b>document.cookie:</b></p>
+  <p id="cookieDisplay" class="console"></p>
+
   <p><button onclick="setLocalStorage()">put data in localStorage</button></p>
-  <p>Lorem ipsum is een tekst die vaak door drukkers, zetters, grafisch ontwerpers en dergelijken gebruikt wordt om te kijken hoe een tekst of lettertype eruit ziet, bijvoorbeeld in letterproeven, op een webpagina of op een kaft van een boek.</p>
-<p>Le faux-texte (également appelé lorem ipsum, lipsum) est, en imprimerie, un texte sans valeur sémantique, permettant de remplir des pages lors d'une mise en forme afin d'en calibrer le contenu en l'absence du texte définitif.</p>
+  <p><b>window.localStorage:</b></p>
+  <p id="localStorageDisplay" class="console"></p>
+
+  <p class="lipsum">Lorem ipsum is een tekst die vaak door drukkers, zetters, grafisch ontwerpers en dergelijken gebruikt wordt om te kijken hoe een tekst of lettertype eruit ziet, bijvoorbeeld in letterproeven, op een webpagina of op een kaft van een boek.</p>
+<p class="lipsum">Le faux-texte (également appelé lorem ipsum, lipsum) est, en imprimerie, un texte sans valeur sémantique, permettant de remplir des pages lors d'une mise en forme afin d'en calibrer le contenu en l'absence du texte définitif.</p>
   <div>
     <a href="data:application/octet-stream," download="a.txt" id=a></a>
     <a href="data:application/octet-stream," download="b.txt" id=b></a>
