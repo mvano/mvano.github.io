@@ -51,7 +51,11 @@ function showNotification(tag) {
 }
 
 function setCookie() {
-  docCookies.setItem('time', String(Date.now()));
+  docCookies.setItem('default cookie', String(Date.now()));
+  docCookies.setItem('persistent cookie', String(Date.now()), Infinity);
+  docCookies.setItem('persistent cookie with path', String(Date.now()), Infinity, location.pathname);
+  docCookies.setItem('persistent cookie with path and domain', String(Date.now()), Infinity, location.pathname, 'github.io');
+  docCookies.setItem('persistent cookie with path and domain and secure only', String(Date.now()), Infinity, location.pathname, 'github.io', true);
   displayCookie();
 }
 
