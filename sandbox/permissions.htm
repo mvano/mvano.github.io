@@ -64,7 +64,16 @@ function clearCookie() {
 }
 
 function displayCookie() {
- document.getElementById('cookieDisplay').textContent = document.cookie || '<empty>';
+  if (!document.cookie) {
+    document.getElementById('cookieDisplay').textContent = '<empty>';
+    return;
+  }
+  var value = '';
+  var keys = docCookies.keys();
+  for (var i = 0; i < keys.length; i++) {
+    value += keys[i] + ' = ' + docCookies.getItem(keys[i]) + '\n';
+  }
+  document.getElementById('cookieDisplay').textContent = value || '<empty>';
 }
 
 function setLocalStorage() {
