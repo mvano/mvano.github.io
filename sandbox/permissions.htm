@@ -56,16 +56,16 @@ function displayCookie() {
 }
 
 function setLocalStorage() {
-  if ('localStorage' in window) {
+  if (!('localStorage' in window)) {
     console.log('No support for localStorage');
     return;
   }
-  localStorage.setItem('test', 'testLocalStorageValue');
+  localStorage.setItem('time', String(Date.now()));
   displayLocalStorage();
 }
 
 function displayLocalStorage() {
-  if ('localStorage' in window) {
+  if (!('localStorage' in window)) {
     console.log('No support for localStorage');
     document.getElementById('localStorageDisplay').textContent = '<not supported>';
     return;
