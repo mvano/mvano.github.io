@@ -121,11 +121,11 @@ function trigger() {
   navigator.geolocation.getCurrentPosition(function() {});
 
   // example.com wants to permanently store date on your local computer
-  navigator.webkitPersistentStorage.requestQuota(1024*1024);
+  //navigator.webkitPersistentStorage.requestQuota(1024*1024);
 
   // This sites is attempting to download multiple files. Do you want to allow this?
-  document.getElementById('a').click();
-  document.getElementById('b').click();
+  //document.getElementById('a').click();
+  //document.getElementById('b').click();
 
   // Allow My App (example.com) to open all web+myapp links
   navigator.registerProtocolHandler('web+myapp', location.origin + '?fake=%s', 'My App');
