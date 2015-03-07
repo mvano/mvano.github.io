@@ -119,7 +119,7 @@ function trigger() {
   if ('Notification' in window) Notification.requestPermission();
 
   // example.com wants to use your computer's location
-  navigator.geolocation.getCurrentPosition(function() {});
+  navigator.geolocation.getCurrentPosition(nullFunction);
 
   // example.com wants to permanently store date on your local computer
   //navigator.webkitPersistentStorage.requestQuota(1024*1024);
@@ -129,7 +129,7 @@ function trigger() {
   //document.getElementById('b').click();
 
   // Allow My App (example.com) to open all web+myapp links
-  navigator.registerProtocolHandler('web+myapp', location.origin + '?fake=%s', 'My App');
+  if ('registerProtocolHandler' in navigator) navigator.registerProtocolHandler('web+myapp', location.origin + '?fake=%s', 'My App');
 
   // Request MIDI access.
   if ('requestMIDIAccess' in navigator) navigator.requestMIDIAccess();
