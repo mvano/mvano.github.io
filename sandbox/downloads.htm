@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>automatic downloads</title>
+<link rel="stylesheet" type="text/css" href="base.css">
+<script>
+function downloadFile(id) {
+  document.getElementById(id).click();
+}
+function downloadAll() {
+  // This site is attempting to download multiple files. Do you want to allow this?
+  downloadFile('text_download_a');
+  downloadFile('text_download_b');
+  downloadFile('text_download_c_404');
+}
+</script>
+</head>
+<body>
+  <p><button onclick="downloadAll()">trigger multiple downloads</button></p>
+  <p><button onclick="downloadFile('text_download_a')">trigger a successful download</button></p>
+  <p><button onclick="downloadFile('text_download_c_404')">trigger a failed download due to 404</button></p>
+  <div>
+    <a href="data:application/octet-stream," download="text_download_a.txt" id="text_download_a"></a>
+    <a href="data:application/octet-stream," download="text_download_b.txt" id="text_download_b"></a>
+    <a href="data:application/octet-stream," download="text_download_c_404.txt" id="text_download_c_404"></a>
+  </div>
+</body>
+</html>

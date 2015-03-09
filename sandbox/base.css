@@ -1,0 +1,11 @@
+body, button {
+  font: 10px sans-serif;
+}
+.console {
+  font: 10px/1.2 Inconsolata, monospace;
+  color: #33f;
+}
+.lipsum {
+  font-style: italic;
+  color: #999;
+}
