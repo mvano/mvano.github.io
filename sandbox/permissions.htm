@@ -6,6 +6,8 @@
 <title>permissions and notifications</title>
 <link rel="stylesheet" type="text/css" href="base.css">
 <script src="cookies.js"></script>
+<script src="localstorage_util.js"></script>
+<script src="notifications_util.js"></script>
 <script>
 function nullFunction() {
   // Do nothing.
@@ -14,25 +16,6 @@ function nullFunction() {
 if (!('getUserMedia' in navigator)) {
   navigator.getUserMedia =
       navigator.mozGetUserMedia || navigator.webkitGetUserMedia || nullFunction;
-}
-
-if (!('Notification' in window) && 'webkitNotifications' in window) {
-  window.Notification = window.webkitNotifications;
-}
-
-function showNotification(tag) {
-  if (!navigator.serviceWorker || !window.ServiceWorkerRegistration.prototype.showNotification) {
-  	console.log('No service worker based notifications.');
-    return;
-  }
-  tag = tag || '';
-  navigator.serviceWorker.register('empty-sw.js').then(function(registration) {
-    return navigator.serviceWorker.ready;
-  }).then(function(registration) {
-    registration.showNotification('Note: timestamp is ' + Date.now(), { tag: tag });
-  }).catch(function(e) {
-    console.log(e);
-  });
 }
 
 function setCookie() {
@@ -62,62 +45,38 @@ function displayCookie() {
   document.getElementById('cookieDisplay').textContent = value || '<empty>';
 }
 
-function setLocalStorage() {
-  if (!('localStorage' in window)) {
-    console.log('No support for localStorage');
-    return;
-  }
-  localStorage.setItem('time', String(Date.now()));
-  displayLocalStorage();
-}
-
-function clearLocalStorage() {
-  if (!('localStorage' in window)) {
-    console.log('No support for localStorage');
-    displayLocalStorage();
-    return;
-  }
-  localStorage.clear();
-  displayLocalStorage();
-}
-
-function displayLocalStorage() {
-  if (!('localStorage' in window)) {
-    console.log('No support for localStorage');
-    document.getElementById('localStorageDisplay').textContent = '<not supported>';
-    return;
-  }
-  var value = '';
-  for (var i = 0; i < localStorage.length; i++) {
-    var key = localStorage.key(i);
-    value += key + ' = ' + localStorage.getItem(key) + '\n';
-  }
-  document.getElementById('localStorageDisplay').textContent = value || '<empty>';
-}
-
+// Triggers many infobars.
 function trigger() {
   // https://www.example.com wants to use your camera and microphone
-  navigator.getUserMedia({'video': true}, nullFunction, nullFunction);
-  navigator.getUserMedia({'audio': true}, nullFunction, nullFunction);
+  if ('getUserMedia' in navigator) {
+    navigator.getUserMedia({'video': true}, nullFunction, nullFunction);
+    navigator.getUserMedia({'audio': true}, nullFunction, nullFunction);
+  }
 
   // Allow example.com to show notifications
   if ('Notification' in window) Notification.requestPermission();
 
   // example.com wants to use your computer's location
-  navigator.geolocation.getCurrentPosition(nullFunction);
+  if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition(nullFunction, nullFunction);
+  }
 
   // example.com wants to permanently store date on your local computer
   //navigator.webkitPersistentStorage.requestQuota(1024*1024);
 
-  // This sites is attempting to download multiple files. Do you want to allow this?
+  // This site is attempting to download multiple files. Do you want to allow this?
   //document.getElementById('a').click();
   //document.getElementById('b').click();
 
   // Allow My App (example.com) to open all web+myapp links
-  if ('registerProtocolHandler' in navigator) navigator.registerProtocolHandler('web+myapp', location.origin + '?fake=%s', 'My App');
+  if ('registerProtocolHandler' in navigator) {
+    navigator.registerProtocolHandler('web+myapp', location.origin + '?fake=%s', 'My App');
+  }
 
   // Request MIDI access.
-  if ('requestMIDIAccess' in navigator) navigator.requestMIDIAccess();
+  if ('requestMIDIAccess' in navigator) {
+    navigator.requestMIDIAccess();
+  }
 
   // Open a window to this same page.
   //window.open(location.url);
@@ -134,7 +93,7 @@ window.addEventListener('load', onloadHandler);
 <body>
   <p><button onclick="trigger()">trigger many infobars</button></p>
   <p><button onclick="showNotification()">show notification without tag</button></p>
-  <p><button onclick="showNotification('tag')">show notification with tag</button></p>
+  <p><button onclick="showNotification(null, 'tag')">show notification with tag</button></p>
 
   <p>
     <button onclick="setCookie()">write cookie</button>
