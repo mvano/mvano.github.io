@@ -8,7 +8,7 @@
   <body>
     <pre id="output">Loading...</pre>
     <div><button id="permission">Request permission</button></div>
-    <div><button id="show" disabled>Show notification</button></div>
+    <div><button id="show" disabled style="display: none;">Show notification</button></div>
     <div><button id="show2" disabled>SWR.showNotification()</button></div>
     <div><button id="show3" disabled>SWR.showNotification() with tag</button></div>
     <script>
@@ -79,7 +79,7 @@
       }, function(error) {
         output.textContent = 'Error: ' + error.message;
       });
-	
+
      }).catch(function (error) {
 	output.textContent = 'Promise error: ' + error.message;
      });
