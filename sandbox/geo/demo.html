@@ -37,12 +37,17 @@ function getEnableHighAccuracy() {
 var getCurrentPositionRequest = 0;
 function getCurrentPosition() {
   var id = getCurrentPositionRequest++;
+  var requestTime = getTime();
   console.log('getCurrentPosition start - request ' + id);
   navigator.geolocation.getCurrentPosition(
     function(position) {
       console.log('getCurrentPosition success - request ' + id);
       console.log(position);
-      display('<div>' + id + ' (received: ' + getTime() + ') (timestamp: ' + formatTime(new Date(position.timestamp)) + ') success</div>');
+      display('<div>' + id +
+          ' (requested: ' + requestTime + ') ' +
+          ' (received: ' + getTime() + ') ' +
+          '(timestamp: ' + formatTime(new Date(position.timestamp)) + ') ' +
+          'success</div>');
     },
     function(error) {
       console.log('getCurrentPosition error - request ' + id);
