@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width">
+<title>navigator.geolocation.watchPosition</title>
+<style>
+html {
+  margin: 0;
+  padding: 0;
+}
+body {
+  margin: 0;
+  padding: 5px;
+}
+*,
+body,
+button {
+  font-family: Inconsolata,monospace;
+  font-size: 10px;
+  line-height: 1.3;
+}
+h1 {
+  font-size: 14px;
+  margin: 0 0 0.5em 0;
+  padding: 0;
+}
+button {
+  margin: 1em;
+  padding: 1em;
+}
+</style>
+<script>
+function getTime() {
+  var now = new Date();
+  var time = '' + now.getUTCHours() + ':';
+  if (now.getUTCMinutes() < 10) time += '0';
+  time += now.getUTCMinutes() + ':';
+  if (now.getUTCSeconds() < 10) time += '0';
+  time += now.getUTCSeconds();
+  //time += ':' + now.getUTCMilliseconds();
+  return time;
+}
+function formatTime(date) {
+  var time = '' + date.getUTCHours() + ':';
+  if (date.getUTCMinutes() < 10) time += '0';
+  time += date.getUTCMinutes() + ':';
+  if (date.getUTCSeconds() < 10) time += '0';
+  time += date.getUTCSeconds();
+  //time += ':' + date.getUTCMilliseconds();
+  return time;
+}
+function display(message) {
+  var div = document.getElementById('consoleDisplay');
+  div.innerHTML = message + div.innerHTML;
+}
+function clearWatch(watchId) {
+  navigator.geolocation.clearWatch(watchId);
+  
+  console.log('Cleared watch ' + watchId);
+  display('<div>' + getTime() + ' cleared watch ' + watchId + '</div>');
+}
+function watchPosition() {
+  var watchId = navigator.geolocation.watchPosition(
+      function(position) {
+        console.log('watchPosition success');
+        console.log(position);
+        display('<div> ' + getTime() + ' (watch: ' + watchId +
+                ') (position timestamp: ' +
+               formatTime(new Date(position.timestamp)) + ')</div>');
+      },
+      function (error) {
+        console.log('watchPosition error');
+        console.log(error);
+        display('<div>' + getTime() + ' (watch: ' + watchId + ') ' + error.message + '</div>');
+      },
+      {
+        timeout: 5000,
+        maximumAge: Infinity,
+        enableHighAccuracy: true
+      });
+  addClearWatchButton(watchId);
+  console.log('Set watch ' + watchId);
+  display('<div>' + getTime() + ' set watch ' + watchId + '</div>');
+}
+function addClearWatchButton(watchId) {
+  var button = document.createElement('button');
+  button.textContent = 'clear watch ' + watchId;
+  button.onclick = function() {
+    button.parentNode.removeChild(button);
+    clearWatch(watchId);
+  };
+  document.getElementById('clearWatchButtons').appendChild(button);
+}
+function startWatchEverySecond() {
+  setInterval(watchPosition, 1000);
+}
+</script>
+</head>
+<body>
+  <h1>navigator.geolocation.watchPosition</h1>
+  <button onclick="watchPosition()">start</button>
+  <button onclick="startWatchEverySecond()">start a watch every second</button>
+  <div id="clearWatchButtons"></div>
+  <div id="consoleDisplay"></div>
+</body>
+</html>

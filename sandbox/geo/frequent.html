@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width">
+<title>Get geolocation as often as possible</title>
+<style>
+html {
+  margin: 0;
+  padding: 0;
+}
+body {
+  margin: 0;
+  padding: 5px;
+}
+*,
+body,
+button {
+  font-family: Inconsolata,monospace;
+  font-size: 10px;
+  line-height: 1.3;
+}
+h1 {
+  font-size: 14px;
+  margin: 0 0 0.5em 0;
+  padding: 0;
+}
+button {
+  margin: 1em;
+  padding: 1em;
+}
+</style>
+<script>
+var getCurrentPositionRequest = 0;
+var requestCount = 0;
+var successCount = 0;
+var errorCount = 0;
+function getTime() {
+  var now = new Date();
+  var time = '' + now.getUTCHours() + ':';
+  if (now.getUTCMinutes() < 10) time += '0';
+  time += now.getUTCMinutes() + ':';
+  if (now.getUTCSeconds() < 10) time += '0';
+  time += now.getUTCSeconds();
+  time += ':' + now.getUTCMilliseconds();
+  return time;
+}
+function formatTime(date) {
+  var time = '' + date.getUTCHours() + ':';
+  if (date.getUTCMinutes() < 10) time += '0';
+  time += date.getUTCMinutes() + ':';
+  if (date.getUTCSeconds() < 10) time += '0';
+  time += date.getUTCSeconds();
+  //time += ':' + date.getUTCMilliseconds();
+  return time;
+}
+function display(message) {
+  var div = document.getElementById('consoleDisplay');
+  div.innerHTML = message + div.innerHTML;
+}
+function getCurrentPosition() {
+  var id = getCurrentPositionRequest++;
+  requestCount++;
+  document.getElementById('requestRate').innerHTML =
+      Math.round(requestCount / ((Date.now() - startTime) / 1000));
+  //console.log('getCurrentPosition start - request ' + id);
+  navigator.geolocation.getCurrentPosition(
+    function(position) {
+      successCount++;
+      document.getElementById('successRate').innerHTML =
+          Math.round(successCount / ((Date.now() - startTime) / 1000));
+      //console.log('getCurrentPosition success - request ' + id);
+      //console.log(position);
+      display('<div>' + id + ' (received: ' + getTime() + ') (timestamp: ' + formatTime(new Date(position.timestamp)) + ') success</div>');
+    },
+    function(error) {
+      failureCount++;
+      document.getElementById('failureRate').innerHTML =
+          Math.round(failureCount / ((Date.now() - startTime) / 1000));
+      //console.log('getCurrentPosition error - request ' + id);
+      //console.log(error);
+      display('<div>' + id + ' ' + getTime() + ' ' + error.message + '</div>');  
+    },
+    {
+      timeout: 20000,
+      maximumAge: 0,
+      enableHighAccuracy: true
+    }
+  );
+}
+var intervalId = 0;
+var startTime = Date.now();
+function startGetCurrentPosition() {
+  requestCount = 0;
+  successCount = 0;
+  failureCount = 0;
+  document.getElementById('requestRate').innerHTML = '0';
+  document.getElementById('successRate').innerHTML = '0';
+  document.getElementById('failureRate').innerHTML = '0';
+  startTime = Date.now();
+  intervalId = setInterval(getCurrentPosition, 0);
+}
+function stopGetCurrentPosition() {
+  clearInterval(intervalId);
+}
+</script>
+</head>
+<body>
+  <h1>Get geolocation as often as possible</h1>
+  <div>
+    <button onclick="startGetCurrentPosition()">start</button>
+    <button onclick="stopGetCurrentPosition()">stop</button>
+  </div>
+  <div>Requests per second: <span id="requestRate"></span></div>
+  <div>Successes per second: <span id="successRate"></span></div>
+  <div>Failures per second: <span id="failureRate"></span></div>
+  <div id="consoleDisplay"></div>
+</body>
+</html>
