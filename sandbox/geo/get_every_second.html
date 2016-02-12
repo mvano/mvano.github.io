@@ -3,53 +3,10 @@
 <head>
 <meta name="viewport" content="width=device-width">
 <title>Get geolocation every second</title>
-<style>
-html {
-  margin: 0;
-  padding: 0;
-}
-body {
-  margin: 0;
-  padding: 5px;
-}
-*,
-body,
-button {
-  font-family: Inconsolata,monospace;
-  font-size: 10px;
-  line-height: 1.3;
-}
-h1 {
-  font-size: 14px;
-  margin: 0 0 0.5em 0;
-  padding: 0;
-}
-button {
-  margin: 1em;
-  padding: 1em;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="util.js"></script>
 <script>
 var getCurrentPositionRequest = 0;
-function getTime() {
-  var now = new Date();
-  var time = '' + now.getUTCHours() + ':';
-  if (now.getUTCMinutes() < 10) time += '0';
-  time += now.getUTCMinutes() + ':';
-  if (now.getUTCSeconds() < 10) time += '0';
-  time += now.getUTCSeconds();
-  //time += ':' + now.getUTCMilliseconds();
-  return time;
-}
-function formatTime(date) {
-  var time = '' + date.getUTCHours() + ':';
-  if (date.getUTCMinutes() < 10) time += '0';
-  time += date.getUTCMinutes() + ':';
-  if (date.getUTCSeconds() < 10) time += '0';
-  time += date.getUTCSeconds();
-  //time += ':' + date.getUTCMilliseconds();
-  return time;
-}
 function display(message) {
   var div = document.getElementById('consoleDisplay');
   div.innerHTML = message + div.innerHTML;

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width">
+<title>Geolocation API Demo</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="util.js"></script>
+<script>
+function display(message) {
+  var div = document.getElementById('consoleDisplay');
+  div.innerHTML = message + div.innerHTML;
+}
+
+function clearDisplay() {
+  document.getElementById('consoleDisplay').innerHTML = '';
+}
+
+function clearWatch(watchId) {
+  navigator.geolocation.clearWatch(watchId);
+  
+  console.log('Cleared watch ' + watchId);
+  display('<div>' + getTime() + ' cleared watch ' + watchId + '</div>');
+}
+
+function getTimeout() {
+  return document.getElementById('timeout').value;
+}
+
+function getMaximumAge() {
+  return document.getElementById('maximumAge').value;
+}
+
+function getEnableHighAccuracy() {
+  return document.getElementById('enableHighAccuracy').checked;
+}
+
+var getCurrentPositionRequest = 0;
+function getCurrentPosition() {
+  var id = getCurrentPositionRequest++;
+  console.log('getCurrentPosition start - request ' + id);
+  navigator.geolocation.getCurrentPosition(
+    function(position) {
+      console.log('getCurrentPosition success - request ' + id);
+      console.log(position);
+      display('<div>' + id + ' (received: ' + getTime() + ') (timestamp: ' + formatTime(new Date(position.timestamp)) + ') success</div>');
+    },
+    function(error) {
+      console.log('getCurrentPosition error - request ' + id);
+      console.log(error);
+      display('<div>' + id + ' ' + getTime() + ' ' + error.message + '</div>');
+  
+    },
+    {
+      timeout: getTimeout(),
+      maximumAge: getMaximumAge(),
+      enableHighAccuracy: getEnableHighAccuracy()
+    }
+  );
+}
+
+function watchPosition() {
+  var watchId = navigator.geolocation.watchPosition(
+      function(position) {
+        console.log('watchPosition success');
+        console.log(position);
+        display('<div> ' + getTime() + ' (watch: ' + watchId +
+                ') (position timestamp: ' +
+               formatTime(new Date(position.timestamp)) + ')</div>');
+      },
+      function (error) {
+        console.log('watchPosition error');
+        console.log(error);
+        display('<div>' + getTime() + ' (watch: ' + watchId + ') ' + error.message + '</div>');
+      },
+      {
+        timeout: getTimeout(),
+        maximumAge: getMaximumAge(),
+        enableHighAccuracy: getEnableHighAccuracy
+      });
+  addClearWatchButton(watchId);
+  console.log('Set watch ' + watchId);
+  display('<div>' + getTime() + ' set watch ' + watchId + '</div>');
+}
+
+function addClearWatchButton(watchId) {
+  var button = document.createElement('button');
+  button.textContent = 'clear watch ' + watchId;
+  button.onclick = function() {
+    button.parentNode.removeChild(button);
+    clearWatch(watchId);
+  };
+  document.getElementById('clearWatchButtons').appendChild(button);
+}
+</script>
+</head>
+<body>
+  <h1>Geolocation API Demo</h1>
+  <div>
+    <label for="timeout">timeout:</label>
+    <input type="number" id="timeout" value="5000" step="1000" min="0">
+  </div>
+  <div>
+    <label for="maximumAge">maximumAge:</label>
+    <input type="number" id="maximumAge" value="5000" step="1000" min="0">
+  </div>
+  <div>
+    <label for="enableHighAccuracy">enableHighAccuracy:</label>
+    <input type="checkbox" id="enableHighAccuracy" checked>
+  </div>
+  <button onclick="getCurrentPosition()">getCurrentPosition</button>
+  <button onclick="watchPosition()">watchPosition</button>
+  <button onclick="clearDisplay()">clear messages</button>
+  <div id="clearWatchButtons"></div>
+  <div id="consoleDisplay"></div>
+</body>
+</html>
