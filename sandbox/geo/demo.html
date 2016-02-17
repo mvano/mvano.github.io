@@ -34,57 +34,59 @@ function getEnableHighAccuracy() {
   return document.getElementById('enableHighAccuracy').checked;
 }
 
-var getCurrentPositionRequest = 0;
-function getCurrentPosition() {
-  var id = getCurrentPositionRequest++;
-  var requestTime = getTime();
-  console.log('getCurrentPosition start - request ' + id);
-  navigator.geolocation.getCurrentPosition(
-    function(position) {
-      console.log('getCurrentPosition success - request ' + id);
-      console.log(position);
-      display('<div>' + id +
-          ' (requested: ' + requestTime + ') ' +
-          ' (received: ' + getTime() + ') ' +
-          '(timestamp: ' + formatTime(new Date(position.timestamp)) + ') ' +
-          'success</div>');
-    },
-    function(error) {
-      console.log('getCurrentPosition error - request ' + id);
-      console.log(error);
-      display('<div>' + id + ' ' + getTime() + ' ' + error.message + '</div>');
-  
-    },
-    {
+function makeSuccessCallback(functionName, requestId, requestTime) {
+  return function(position) {
+    console.log(functionName + ' success - ' + requestId);
+    console.log(position);
+    display('<div>' + getTime() + ' ' + functionName + ' ' + requestId + ' success' +
+        ' (requested: ' + requestTime + ')' +
+        ' (position timestamp: ' + formatTime(new Date(position.timestamp)) + ') ' +
+        '</div>');
+  };
+}
+
+function makeErrorCallback(functionName, requestId) {
+  return function(error) {
+    console.log(functionName + ' error - ' + requestId);
+    console.log(error);
+    display('<div>' + getTime() + ' ' + functionName + ' ' + requestId + ' error ' + error.message +
+        '</div>');  
+  }
+}
+
+function makeOptions() {
+  return {
       timeout: getTimeout(),
       maximumAge: getMaximumAge(),
       enableHighAccuracy: getEnableHighAccuracy()
-    }
-  );
+  };
 }
 
+var nextCurrentPositionRequestId = 0;
+function getCurrentPosition() {
+  var functionName = 'getCurrentPosition';
+  var requestId = nextCurrentPositionRequestId++;
+  var requestTime = getTime();
+  navigator.geolocation.getCurrentPosition(
+    makeSuccessCallback(functionName, requestId, requestTime),
+    makeErrorCallback(functionName, requestId),
+    makeOptions());
+  console.log(functionName + ' ' + requestId);
+  display('<div>' + getTime() + ' ' + functionName + ' ' + requestId + ' start</div>');
+}
+
+var nextWatchPositionRequestId = 0;
 function watchPosition() {
+  var functionName = 'watchPosition';
+  var requestId = nextWatchPositionRequestId++;
+  var requestTime = getTime();
   var watchId = navigator.geolocation.watchPosition(
-      function(position) {
-        console.log('watchPosition success');
-        console.log(position);
-        display('<div> ' + getTime() + ' (watch: ' + watchId +
-                ') (position timestamp: ' +
-               formatTime(new Date(position.timestamp)) + ')</div>');
-      },
-      function (error) {
-        console.log('watchPosition error');
-        console.log(error);
-        display('<div>' + getTime() + ' (watch: ' + watchId + ') ' + error.message + '</div>');
-      },
-      {
-        timeout: getTimeout(),
-        maximumAge: getMaximumAge(),
-        enableHighAccuracy: getEnableHighAccuracy
-      });
+      makeSuccessCallback(functionName, requestId, requestTime),
+      makeErrorCallback(functionName, requestId),
+      makeOptions());
   addClearWatchButton(watchId);
-  console.log('Set watch ' + watchId);
-  display('<div>' + getTime() + ' set watch ' + watchId + '</div>');
+  console.log(functionName + ' ' + requestId);
+  display('<div>' + getTime() + ' ' + functionName + ' ' + requestId + ' start</div>');
 }
 
 function addClearWatchButton(watchId) {
