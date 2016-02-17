@@ -22,3 +22,6 @@ button {
   margin: 1em;
   padding: 1em;
 }
+.container {
+  padding: 5px 0;
+}
