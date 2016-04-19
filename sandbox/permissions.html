@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>permissions and notifications</title>
+<link rel="stylesheet" type="text/css" href="base.css">
+<script src="cookies.js"></script>
+<script src="localstorage_util.js"></script>
+<script src="notifications_util.js"></script>
+<script>
+function nullFunction() {
+  // Do nothing.
+}
+
+if (!('getUserMedia' in navigator)) {
+  navigator.getUserMedia =
+      navigator.mozGetUserMedia || navigator.webkitGetUserMedia || nullFunction;
+}
+
+function setCookie() {
+  docCookies.setItem('session cookie', String(Date.now()));
+  docCookies.setItem('persistent cookie', String(Date.now()), Infinity);
+  displayCookie();
+}
+
+function clearCookie() {
+  var keys = docCookies.keys();
+  for (var i = 0; i < keys.length; i++) {
+    docCookies.removeItem(keys[i]);
+  }
+  displayCookie();
+}
+
+function displayCookie() {
+  if (!document.cookie) {
+    document.getElementById('cookieDisplay').textContent = '<empty>';
+    return;
+  }
+  var value = '';
+  var keys = docCookies.keys();
+  for (var i = 0; i < keys.length; i++) {
+    value += keys[i] + ' = ' + docCookies.getItem(keys[i]) + '\n';
+  }
+  document.getElementById('cookieDisplay').textContent = value || '<empty>';
+}
+
+// Triggers many infobars.
+function trigger() {
+  // https://www.example.com wants to use your camera and microphone
+  if ('getUserMedia' in navigator) {
+    navigator.getUserMedia({'video': true}, nullFunction, nullFunction);
+    navigator.getUserMedia({'audio': true}, nullFunction, nullFunction);
+  }
+
+  // Allow example.com to show notifications
+  if ('Notification' in window) Notification.requestPermission();
+
+  // example.com wants to use your computer's location
+  if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition(nullFunction, nullFunction);
+  }
+
+  // example.com wants to permanently store date on your local computer
+  //navigator.webkitPersistentStorage.requestQuota(1024*1024);
+
+  // This site is attempting to download multiple files. Do you want to allow this?
+  //document.getElementById('a').click();
+  //document.getElementById('b').click();
+
+  // Allow My App (example.com) to open all web+myapp links
+  if ('registerProtocolHandler' in navigator) {
+    navigator.registerProtocolHandler('web+myapp', location.origin + '?fake=%s', 'My App');
+  }
+
+  // Request MIDI access.
+  if ('requestMIDIAccess' in navigator) {
+    navigator.requestMIDIAccess();
+  }
+
+  // Open a window to this same page.
+  //window.open(location.url);
+}
+
+function onloadHandler() {
+  displayCookie();
+  displayLocalStorage();
+}
+
+window.addEventListener('load', onloadHandler);
+</script>
+</head>
+<body>
+  <p><button onclick="trigger()">trigger many infobars</button></p>
+  <p><button onclick="showNotification()">show notification without tag</button></p>
+  <p><button onclick="showNotification(null, 'tag')">show notification with tag</button></p>
+
+  <p>
+    <button onclick="setCookie()">write cookie</button>
+    <button onclick="clearCookie()">clear cookie</button>
+    <button onclick="displayCookie()">read cookie</button>
+  </p>
+  <p><b>document.cookie:</b></p>
+  <p id="cookieDisplay" class="console"></p>
+
+  <p>
+    <button onclick="setLocalStorage()">write localStorage</button>
+    <button onclick="clearLocalStorage()">clear localStorage</button>
+    <button onclick="displayLocalStorage()">read localStorage</button>
+  </p>
+  <p><b>window.localStorage:</b></p>
+  <p id="localStorageDisplay" class="console"></p>
+
+  <p class="lipsum">Lorem ipsum is een tekst die vaak door drukkers, zetters, grafisch ontwerpers en dergelijken gebruikt wordt om te kijken hoe een tekst of lettertype eruit ziet, bijvoorbeeld in letterproeven, op een webpagina of op een kaft van een boek.</p>
+<p class="lipsum">Le faux-texte (également appelé lorem ipsum, lipsum) est, en imprimerie, un texte sans valeur sémantique, permettant de remplir des pages lors d'une mise en forme afin d'en calibrer le contenu en l'absence du texte définitif.</p>
+  <div>
+    <a href="data:application/octet-stream," download="a.txt" id=a></a>
+    <a href="data:application/octet-stream," download="b.txt" id=b></a>
+  </div>
+</body>
+</html>
