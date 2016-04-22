@@ -1,26 +1,57 @@
-
-//
+function log(message) {
+  console.log(message);
+}
 
 function sendMessage(message) {
-  self.clients.getAll().then(function(clients) {
-    clients.forEach(function(client) {
+  log('sendMessage: ' + message);
+  clients.getAll().then(clients => {
+    log(clients.length + ' clients');
+    clients.forEach(client => {
       client.postMessage(message);
     });
   });
 }
 
-addEventListener('notificationclick', function(event) {
-  sendMessage('Received notificationclick event.');
+log('In service worker');
 
-  clients.openWindow('https://secure.peter.sh/tests/sw-yay.html').then(function (w) {
-    var url = w ? w.url : 'null';
-    sendMessage('Opened window: ' + url);
-    registration.showNotification('OMGYAY', {});
-  }, function (error) {
-    sendMessage('Error: ' + String(error));
-  });
+oninstall = event => {
+  log(event.type + ' event');
+  event.waitUntil(skipWaiting());
+};
 
+onactivate = event => {
+  log(event.type + ' event');
+  event.waitUntil(clients.claim());
+};
+
+onfetch = event => {
+  log('fetch url: ' + event.request.url);
+};
+
+onnotificationclose = event => {
+  log(event.type + ' event');
+};
+
+onnotificationclick = event => {
+  log(event.type + ' event');
   event.notification.close();
-});
+};
 
-
+onmessage = event => {
+  log(event.type + ' event');
+  log(event.data + ' command');
+  switch (event.data) {
+    case 'showNotification':
+      registration.showNotification('Persistent notification', {
+        icon: 'resources/11.png',
+        body: 'From service worker'
+      });
+      break;
+    case 'fetch':
+      fetch('resources/11.png');
+      break;
+    default:
+      log('Unhandled message: ' + event.data);
+  }
+  sendMessage('Received message: ' + event.data);
+};
