@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Vibration API</h1>
+<script type="text/javascript">
+    var originalVibrate = navigator.vibrate;
+
+    navigator.vibrate = function(pattern) {
+      console.log(pattern);
+      document.title = Date.now() + ' : ' + pattern;
+      originalVibrate.call(navigator, pattern);
+    }
+
+    function startVibrate(level) {
+      navigator.vibrate(level);
+    }
+
+    var vibrateInterval;
+    function startPersistentVibrate(level, interval) {
+      vibrateInterval = setInterval(function() {
+        startVibrate(level);
+      }, interval);
+    }
+    
+    function stopVibrate() {
+      if(vibrateInterval) clearInterval(vibrateInterval);
+      navigator.vibrate(0);
+    }
+  </script>
+
+  <p> click the buttons below to start and stop vibrating!</p>
+
+  <button onclick="startVibrate(1000);">Vibrate Once</button>
+
+  <button onclick="startVibrate([1000, 200, 1000, 2000, 400]);">Vibrate Multiple Times</button>
+
+  <button onclick="startPersistentVibrate(1000, 1500);">Vibrate Persistently</button>
+
+  <button onclick="startPersistentVibrate(40000000000000, 1);">Nuke it</button>
+  
+  <button onclick="stopVibrate();">Stop Vibrating!</button>
+
+</body>
+</html>
