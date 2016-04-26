@@ -31,7 +31,7 @@
     var randomVibrateInterval;
     function startRandomPersistentVibrate() {
       randomVibrateInterval = setInterval(function() {
-        startVibrate(Math.round(Math.random() * 1000));
+        startVibrate(3000 - Math.round(Math.random() * 100));
       }, 1);
     }
     function stopVibrate() {
