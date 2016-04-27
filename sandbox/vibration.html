@@ -10,17 +10,19 @@
   <h1>Vibration API</h1>
   <script type="text/javascript">
     var intervals = [];
+    var logMessages = [];
     var originalVibrate = navigator.vibrate;
 
     function log(message) {
       console.log(message);
-      var consoleElement = document.getElementById('htmlConsole');
-      consoleElement.textContent = message + '\n' + consoleElement.textContent;
+      logMessages.unshift(message);
+      while (logMessages.length > 10)
+        logMessages.pop();
+      document.getElementById('htmlConsole').textContent = logMessages.join('\n');
     }
 
     navigator.vibrate = function(pattern) {
       log(pattern);
-      document.title = Date.now() + ' : ' + pattern;
       originalVibrate.call(navigator, pattern);
     }
 
