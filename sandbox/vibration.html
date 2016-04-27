@@ -22,7 +22,7 @@
     }
 
     navigator.vibrate = function(pattern) {
-      log(pattern);
+      log('vibrate ' + pattern);
       originalVibrate.call(navigator, pattern);
     }
 
@@ -34,7 +34,7 @@
 
     function stop() {
       var intervalCount = intervals.length;
-      log('Clearing ' + intervalCount + ' intervals');
+      log('clearing ' + intervalCount + ' intervals');
       for (var i = 0; i < intervals.length; i++) {
         clearInterval(intervals[i]);
       }
