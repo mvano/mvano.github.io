@@ -9,42 +9,41 @@
 <body>
   <h1>Vibration API</h1>
   <script type="text/javascript">
+    var intervals = [];
     var originalVibrate = navigator.vibrate;
 
+    function log(message) {
+      console.log(message);
+      var consoleElement = document.getElementById('htmlConsole');
+      consoleElement.textContent = message + '\n' + consoleElement.textContent;
+    }
+
     navigator.vibrate = function(pattern) {
-      console.log(pattern);
+      log(pattern);
       document.title = Date.now() + ' : ' + pattern;
       originalVibrate.call(navigator, pattern);
     }
 
-    function startVibrate(pattern) {
-      navigator.vibrate(pattern);
+    function randomPersistentVibrate() {
+      intervals.push(setInterval(function() {
+        navigator.vibrate(3000 - Math.round(Math.random() * 100));
+      }, 1));
     }
 
-    var vibrateInterval;
-    function startPersistentVibrate(pattern, interval) {
-      vibrateInterval = setInterval(function() {
-        startVibrate(pattern);
-      }, interval);
-    }
-    
-    var randomVibrateInterval;
-    function startRandomPersistentVibrate() {
-      randomVibrateInterval = setInterval(function() {
-        startVibrate(3000 - Math.round(Math.random() * 100));
-      }, 1);
-    }
-    function stopVibrate() {
-      if (vibrateInterval) clearInterval(vibrateInterval);
-      if (randomVibrateInterval) clearInterval(randomVibrateInterval);
+    function stop() {
+      var intervalCount = intervals.length;
+      log('Clearing ' + intervalCount + ' intervals');
+      for (var i = 0; i < intervals.length; i++) {
+        clearInterval(intervals[i]);
+      }
+      intervals = [];
       navigator.vibrate(0);
     }
   </script>
-
-  <p><button onclick="startVibrate(1000);">Vibrate Once</button></p>
-  <p><button onclick="startVibrate([1000, 200, 1000, 2000, 400]);">Vibrate Multiple Times</button></p>
-  <p><button onclick="startPersistentVibrate(1000, 1500);">Vibrate Persistently</button></p>
-  <p><button onclick="startRandomPersistentVibrate();">Random persistent overload</button></p>
-  <p><button onclick="stopVibrate();">Stop</button></p>
+  <p><button onclick="navigator.vibrate(1000);">Vibrate once</button></p>
+  <p><button onclick="navigator.vibrate([1001, 101, 1002, 102, 1003]);">Vibrate 3 times</button></p>
+  <p><button onclick="randomPersistentVibrate();">Random persistent overload</button></p>
+  <p><button onclick="stop();">Stop</button></p>
+  <pre id="htmlConsole"></pre>
 </body>
 </html>
