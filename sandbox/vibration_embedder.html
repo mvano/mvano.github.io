@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vibration API</title>
+  <link rel="stylesheet" type="text/css" href="base.css">
+  <style>
+    .container {
+      display: inline-block;
+      width: 180px;
+      border: 1px solid #000;
+      margin: 10px;
+      padding: 10px;
+      background-color: #def;
+    }
+
+    iframe {
+      width: 100%;
+      height: 220px;
+      border: 1px solid #000;
+      margin-top: 10px;
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Vibration API embedder</h1>
+  <script type="text/javascript">
+    var logMessages = [];
+
+    function log(message) {
+      console.log(message);
+      logMessages.unshift(message);
+      while (logMessages.length > 10)
+        logMessages.pop();
+      document.getElementById('htmlConsole').textContent = logMessages.join('\n');
+    }
+
+    function create(name) {
+      return document.createElement(name);
+    }
+
+    function createIframe() {
+      var container = create('div');
+      container.className = 'container';
+      var button = create('button');
+      button.textContent = 'Destroy iframe';
+      button.onclick = function() {
+        container.innerHTML = '';
+        container.parentNode.removeChild(container);
+      };
+      container.appendChild(button);
+      var iframe = create('iframe');
+      iframe.src = 'vibration.html';
+      container.appendChild(iframe);
+      document.body.appendChild(container);
+    }
+  </script>
+  <p><button onclick="createIframe()">Create iframe</button></p>
+  <pre id="htmlConsole"></pre>
+</body>
+</html>
