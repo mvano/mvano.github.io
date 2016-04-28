@@ -44,16 +44,33 @@
     function createIframe() {
       var container = create('div');
       container.className = 'container';
-      var button = create('button');
-      button.textContent = 'Destroy iframe';
-      button.onclick = function() {
+
+      var buttonDestroy = create('button');
+      buttonDestroy.textContent = 'Destroy';
+      buttonDestroy.onclick = function() {
         container.innerHTML = '';
         container.parentNode.removeChild(container);
       };
-      container.appendChild(button);
+      container.appendChild(buttonDestroy);
+
+      var buttonHide = create('button');
+      buttonHide.textContent = 'Hide';
+      buttonHide.onclick = function() {
+        iframe.style.display = 'none';
+      };
+      container.appendChild(buttonHide);
+
+      var buttonShow = create('button');
+      buttonShow.textContent = 'Show';
+      buttonShow.onclick = function() {
+        iframe.style.display = '';
+      };
+      container.appendChild(buttonShow);
+
       var iframe = create('iframe');
       iframe.src = 'vibration.html';
       container.appendChild(iframe);
+
       document.body.appendChild(container);
     }
   </script>
