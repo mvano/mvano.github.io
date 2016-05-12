@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vibration API</title>
+  <link rel="stylesheet" type="text/css" href="base.css">
+</head>
+<body>
+  <h1>Vibration API</h1>
+  <script type="text/javascript">
+    var intervals = [];
+    var logMessages = [];
+    var originalVibrate = navigator.vibrate;
+
+    function log(message) {
+      console.log(message);
+      logMessages.unshift(message);
+      while (logMessages.length > 10)
+        logMessages.pop();
+      document.getElementById('htmlConsole').textContent = logMessages.join('\n');
+    }
+
+    navigator.vibrate = function(pattern) {
+      log('vibrate ' + pattern);
+      originalVibrate.call(navigator, pattern);
+    }
+
+    function randomPersistentVibrate() {
+      intervals.push(setInterval(function() {
+        navigator.vibrate(3000 - Math.round(Math.random() * 100));
+      }, 1));
+    }
+
+    function stop() {
+      var intervalCount = intervals.length;
+      log('clearing ' + intervalCount + ' intervals');
+      for (var i = 0; i < intervals.length; i++) {
+        clearInterval(intervals[i]);
+      }
+      intervals = [];
+      navigator.vibrate(0);
+    }
+
+    var win;
+    var nav;
+    var doc;
+
+    function openOtherWindow() {
+      win = window.open('vibration.html');
+    }
+
+    function closeOtherWindowAndKeepWindowReference() {
+      if (!win) return;
+      win.close();
+      nav = null;
+    }
+
+    function closeOtherWindowAndKeepNavigatorReference() {
+      if (!win) return;
+      nav = win.navigator;
+      win.close();
+      win = null;
+    }
+
+    function closeOtherWindowAndKeepAllReferences() {
+      if (!win) return;
+      nav = win.navigator;
+      doc = win.document;
+      win.close();
+    }
+    function vibrateInOtherWindow() {
+      if (win) win.navigator.vibrate(1234);
+      else log('no win');
+    }
+
+    function vibrateInOtherNavigator() {
+      if (nav) nav.vibrate(1234);
+      else log('no nav');
+    }
+  </script>
+  <p><button onclick="openOtherWindow();">Open another window</button></p>
+  <p><button onclick="closeOtherWindowAndKeepWindowReference();">Close the other window and keep a window reference</button></p>
+  <p><button onclick="closeOtherWindowAndKeepNavigatorReference();">Close the other window and keep a navigator reference</button></p>
+  <p><button onclick="closeOtherWindowAndKeepAllReferences();">Close the other window and keep all references</button></p>
+  <p><button onclick="vibrateInOtherWindow();">Vibrate in the other window</button></p>
+  <p><button onclick="vibrateInOtherNavigator();">Vibrate in the other navigator</button></p>
+  <pre id="htmlConsole"></pre>
+</body>
+</html>

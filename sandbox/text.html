@@ -1,0 +1,21 @@
+<html>
+<head>
+<script>
+  window.onload = function() {
+    document.getElementById('render').innerHTML = document.getElementById('code').innerHTML;
+  };
+</script>
+</head>
+<body>
+<h2>Code</h2>
+<xmp id="code"><div>
+  <p>Text can be styled in all sorts of ways.</p>
+  <p>Text can be <b>styled</b> in all sorts of ways.</p>
+  <p>Text can be styled in all <i>sorts</i> of ways.</p>
+  <p>Text can be <b>styled in all <i>sorts</i></b> of ways.</p>
+  <p>Sometimes text is hidden <span style="display:none;">like this</span> from view.</p>
+</div></xmp>
+<h2>Result</h2>
+<div id="render"></div>
+</body>
+</html>
