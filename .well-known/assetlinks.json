@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : {
+    "namespace": "android_app",
+    "package_name": "io.github.mvano.twa",
+    "sha256_cert_fingerprints": ["BE:CE:FB:DF:AD:E8:32:C8:82:A2:C6:FA:02:0C:57:FC:0F:D3:91:68:F6:BB:40:6A:38:A2:6D:00:37:D0:4D:13"]
+  }
+}]
