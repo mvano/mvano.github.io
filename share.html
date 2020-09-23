@@ -12,7 +12,7 @@
 </head>
 <body>
   <h1>Web Share</h1>
-  <p><button type="button" id="share">Share<button></p>
+  <p><button type="button" id="share">Share</button></p>
   <script>
     if ('share' in navigator) {
       document.getElementById('share').addEventListener('click', e => {
@@ -30,6 +30,8 @@
             console.error('share error', err);
           });
       });
+    } else {
+      console.log('no navigator.share');
     }
   </script>
   <script src="app.js" async></script>
