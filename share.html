@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="mvano">
+  <meta name="theme-color" content="#3E4EB8">
+  <title>mvano</title>
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/images/icons/pokeball-192.png">
+</head>
+<body>
+  <h1>Web Share</h1>
+  <p><button type="button" id="share">Share<button></p>
+  <script>
+    if ('share' in navigator) {
+      document.getElementById('share').addEventListener('click', e => {
+        console.log('click share', e);
+        const data = {
+          title: 'This is the title',
+          text: 'This is the text',
+          url: 'https://w3c.github.io/web-share/',
+        };
+        navigator.share(data)
+          .then(e => {
+            console.log('share success', e);
+          })
+          .catch((err) => {
+            console.error('share error', err);
+          });
+      });
+    }
+  </script>
+  <script src="app.js" async></script>
+</body>
+</html>
