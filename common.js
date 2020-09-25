@@ -1,8 +1,10 @@
 (function() {
   'use strict';
 
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('DOMContentLoaded', function() {
+  window.addEventListener('DOMContentLoaded', function() {
+    console.log(window.location.href);
+
+    if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').then(function(registration) {
         // Registration was successful
         console.log('ServiceWorker registration successful with scope: ', registration.scope);
@@ -10,6 +12,7 @@
         // registration failed :(
         console.log('ServiceWorker registration failed: ', err);
       });
-    });
-  }
+    }
+
+  });
 })();
