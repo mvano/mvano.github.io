@@ -6,9 +6,9 @@
       // container: el,
       // tool: ['console', 'elements'],
       // useShadowDom: true,
-      // autoScale: true,
+      autoScale: false,
       defaults: {
-          displaySize: 50,
+          displaySize: 30,
           transparency: 0.9
           // theme: 'Monokai Pro'
       }
