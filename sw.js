@@ -1,7 +1,7 @@
 var CACHE_NAME = 'my-site-cache-v1';
 var urlsToCache = [
-  'index.html',
-  'share.html',
+  // 'index.html',
+  // 'share.html',
 ];
 
 self.addEventListener('install', function(event) {
@@ -20,9 +20,9 @@ self.addEventListener('fetch', function(event) {
     caches.match(event.request)
       .then(function(response) {
         // Cache hit - return response
-        if (response) {
-          return response;
-        }
+        // if (response) {
+        //   return response;
+        // }
         return fetch(event.request);
       }
     )
