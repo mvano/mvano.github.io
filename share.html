@@ -17,17 +17,33 @@
   <script src="common.js" defer></script>
 </head>
 <body>
-  <h1>Share and Share Target</h1>
+  <h1>Sharing</h1>
   <p>This page uses both the Web Share API and the Web Share Target API.</p>
-  <p><button type="button" id="share">Share</button></p>
+
+  <h2>Web Share</h2>
+  <div>
+    <label for="title">title:</label>
+    <input id="title" name="title" value="This is the title">
+  </div>
+  <div>
+    <label for="text">text:</label>
+    <input id="text" name="text" value="This is the text">
+  </div>
+  <div>
+    <label for="url">url:</label>
+    <input id="url" name="url" value="https://w3c.github.io/web-share/">
+  </div>
+  <div>
+    <button type="button" id="share">Share</button>
+  </div>
   <script>
     if ('share' in navigator) {
       document.getElementById('share').addEventListener('click', e => {
         console.log('click share', e);
         const data = {
-          title: 'This is the title',
-          text: 'This is the text',
-          url: 'https://w3c.github.io/web-share/',
+          title: document.getElementById('title').value,
+          text: document.getElementById('text').value,
+          url: document.getElementById('url').value
         };
         navigator.share(data)
           .then(e => {
@@ -42,7 +58,7 @@
     }
   </script>
 
-  <h2>Received data</h2>
+  <h2>Web Share Target</h2>
   <div>
     <b><code>window.location</code>:</b> <code id="href"></code><br>
     <b>Title:</b> <code id="title"></code><br>
