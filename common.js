@@ -8,8 +8,8 @@
       // useShadowDom: true,
       autoScale: false,
       defaults: {
-          displaySize: 30,
-          transparency: 0.9
+          displaySize: 50,
+          transparency: 1.0
           // theme: 'Monokai Pro'
       }
     });
