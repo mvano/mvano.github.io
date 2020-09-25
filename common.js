@@ -2,6 +2,18 @@
   'use strict';
 
   window.addEventListener('DOMContentLoaded', function() {
+    eruda.init({
+      // container: el,
+      // tool: ['console', 'elements'],
+      // useShadowDom: true,
+      // autoScale: true,
+      defaults: {
+          displaySize: 50,
+          transparency: 0.9
+          // theme: 'Monokai Pro'
+      }
+    });
+
     console.log(window.location.href);
 
     if ('serviceWorker' in navigator) {
