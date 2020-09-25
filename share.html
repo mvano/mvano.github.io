@@ -17,7 +17,8 @@
   <script src="common.js" defer></script>
 </head>
 <body>
-  <h1>Web Share</h1>
+  <h1>Share and Share Target</h1>
+  <p>This page uses both the Web Share API and the Web Share Target API.</p>
   <p><button type="button" id="share">Share</button></p>
   <script>
     if ('share' in navigator) {
@@ -40,5 +41,24 @@
       console.log('no navigator.share');
     }
   </script>
+
+  <h2>Received data</h2>
+  <div>
+    <b><code>window.location</code>:</b> <code id="href"></code><br>
+    <b>Title:</b> <code id="title"></code><br>
+    <b>Text:</b> <code id="text"></code><br>
+    <b>URL:</b> <code id="url"></code>
+  </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('href').textContent = window.location.href;
+      const parsedUrl = new URL(window.location);
+      document.getElementById('title').textContent = parsedUrl.searchParams.get('title');
+      document.getElementById('text').textContent = parsedUrl.searchParams.get('text');
+      document.getElementById('url').textContent = parsedUrl.searchParams.get('url');
+    });
+  </script>
+
 </body>
 </html>
