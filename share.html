@@ -23,11 +23,11 @@
   <h2>Web Share</h2>
   <div>
     <label for="title">title:</label>
-    <input id="title" name="title" value="This is the title">
+    <input id="title" name="title" value="Test title">
   </div>
   <div>
     <label for="text">text:</label>
-    <input id="text" name="text" value="This is the text">
+    <input id="text" name="text" value="Test text">
   </div>
   <div>
     <label for="url">url:</label>
@@ -61,18 +61,18 @@
   <h2>Web Share Target</h2>
   <div>
     <b><code>window.location</code>:</b> <code id="href"></code><br>
-    <b>Title:</b> <code id="title"></code><br>
-    <b>Text:</b> <code id="text"></code><br>
-    <b>URL:</b> <code id="url"></code>
+    <b>Title:</b> <code id="viewTitle"></code><br>
+    <b>Text:</b> <code id="viewText"></code><br>
+    <b>URL:</b> <code id="viewUrl"></code>
   </div>
 
   <script>
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('href').textContent = window.location.href;
       const parsedUrl = new URL(window.location);
-      document.getElementById('title').textContent = parsedUrl.searchParams.get('title');
-      document.getElementById('text').textContent = parsedUrl.searchParams.get('text');
-      document.getElementById('url').textContent = parsedUrl.searchParams.get('url');
+      document.getElementById('viewTitle').textContent = parsedUrl.searchParams.get('title');
+      document.getElementById('viewText').textContent = parsedUrl.searchParams.get('text');
+      document.getElementById('viewUrl').textContent = parsedUrl.searchParams.get('url');
     });
   </script>
 
