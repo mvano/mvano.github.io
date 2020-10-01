@@ -27,7 +27,10 @@
 
       navigator.serviceWorker.onmessage = event => {
         console.log(event);
+        if (event.data.action !== 'receive-image') return;
+
         const file = event.data.files[0];
+        console.log(file);
         document.getElementById('viewName').textContent = file.name;
         document.getElementById('viewType').textContent = file.type;
         document.getElementById('viewSize').textContent = file.size;

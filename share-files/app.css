@@ -1,0 +1,5 @@
+#viewImage {
+  display: block;
+  border: 1px solid black;
+  min-height: 50px;
+}
