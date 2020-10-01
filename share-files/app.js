@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  window.addEventListener('DOMContentLoaded', function() {
+  window.addEventListener('DOMContentLoaded', event => {
     eruda.init({
       // container: el,
       // tool: ['console', 'elements'],
@@ -25,9 +25,9 @@
           .then(() => console.log('File share successful'))
           .catch(error => console.log('File share failed', error));
       } else {
-        console.log('Your system does not support file share.'');
+        console.log('Your system does not support file sharing.'');
       }
-    }
+    });
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').then(registration => {
