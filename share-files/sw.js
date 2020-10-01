@@ -11,7 +11,7 @@ onfetch = async (event) => {
     const files = data.getAll('files');
 
     console.log('files', files);
-    client.postMessage({ files, action: 'load' });
+    client.postMessage(files);
   }());
 };
 

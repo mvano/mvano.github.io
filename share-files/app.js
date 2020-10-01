@@ -27,7 +27,7 @@
 
       navigator.serviceWorker.onmessage = event => {
         console.log(event);
-        imageBlob = event.data.file;
+        // imageBlob = event.data.files;
         // Update the UI with the data that has been shared to it.
         // imageShare.src = URL.createObjectURL(imageBlob);
       };
