@@ -59,22 +59,12 @@
   </script>
 
   <h2>Web Share Target</h2>
-  <div>
-    <b><code>window.location</code>:</b> <code id="href"></code><br>
-    <b>Title:</b> <code id="viewTitle"></code><br>
-    <b>Text:</b> <code id="viewText"></code><br>
-    <b>URL:</b> <code id="viewUrl"></code>
-  </div>
-
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('href').textContent = window.location.href;
-      const parsedUrl = new URL(window.location);
-      document.getElementById('viewTitle').textContent = parsedUrl.searchParams.get('title');
-      document.getElementById('viewText').textContent = parsedUrl.searchParams.get('text');
-      document.getElementById('viewUrl').textContent = parsedUrl.searchParams.get('url');
-    });
-  </script>
-
+  <ul>
+    <li><b>name:</b> <code id="viewName"></code></li>
+    <li><b>type:</b> <code id="viewType"></code></li>
+    <li><b>size:</b> <code id="viewSize"></code></li>
+    <li><b>lastModified:</b> <code id="viewLastModified"></code></li>
+  </ul>
+  <img id="viewImage" style="display: block;">
 </body>
 </html>

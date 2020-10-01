@@ -27,9 +27,12 @@
 
       navigator.serviceWorker.onmessage = event => {
         console.log(event);
-        // imageBlob = event.data.files;
-        // Update the UI with the data that has been shared to it.
-        // imageShare.src = URL.createObjectURL(imageBlob);
+        const file = event.data.files[0];
+        document.getElementById('viewName').textContent = file.name;
+        document.getElementById('viewType').textContent = file.type;
+        document.getElementById('viewSize').textContent = file.size;
+        document.getElementById('viewLastModified').textContent = file.lastModified;
+        document.getElementById('viewImage').src = URL.createObjectURL(file);
       };
     }
 
