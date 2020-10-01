@@ -18,11 +18,16 @@
   "theme_color": "#3E4EB8",
   "share_target": {
     "action": "index.html",
-    "method": "GET",
+    "method": "POST",
+    "enctype": "multipart/form-data",
     "params": {
       "title": "title",
       "text": "text",
-      "url": "url"
+      "url": "url",
+      "files": [{
+          "name": "files",
+          "accept": ["image/*", "video/*"]
+      }]
     }
   }
 }

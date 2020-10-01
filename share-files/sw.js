@@ -1,30 +1,26 @@
-var CACHE_NAME = 'my-site-cache-v1';
-var urlsToCache = [
-  // 'index.html',
-  // 'share.html',
-];
+onfetch = async (event) => {
+  console.log('onfetch');
+  if (event.request.method !== 'POST') return;
+  if (event.request.url.startsWith('https://mvano.github.io/share-files/index.html') === false) return;
 
-self.addEventListener('install', function(event) {
-  // Perform install steps
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(function(cache) {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
-  );
-});
+  event.respondWith(Response.redirect('/share-files/index.html'));
 
-self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    caches.match(event.request)
-      .then(function(response) {
-        // Cache hit - return response
-        // if (response) {
-        //   return response;
-        // }
-        return fetch(event.request);
-      }
-    )
-  );
-});
+  event.waitUntil(async function () {
+    const data = await event.request.formData();
+    const client = await self.clients.get(event.resultingClientId || event.clientId);
+    const files = data.getAll('files');
+
+    console.log('files', files);
+    client.postMessage({ files, action: 'load' });
+  }());
+};
+
+oninstall = () => {
+  console.log('oninstall');
+  skipWaiting();
+};
+
+onactivate = () => {
+  console.log('onactivate');
+  clients.claim();
+};
