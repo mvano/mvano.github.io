@@ -23,41 +23,12 @@
 
   <h2>Web Share</h2>
   <div>
-    <label for="title">title:</label>
-    <input id="title" name="title" value="Test title">
-  </div>
-  <div>
-    <label for="text">text:</label>
-    <input id="text" name="text" value="Test text">
-  </div>
-  <div>
-    <label for="url">url:</label>
-    <input id="url" name="url" value="https://w3c.github.io/web-share/">
+    <label for="image">Choose an image to share:</label>
+    <input type="file" id="image" name="image" accept="image/*">
   </div>
   <div>
     <button type="button" id="share">Share</button>
   </div>
-  <script>
-    if ('share' in navigator) {
-      document.getElementById('share').addEventListener('click', e => {
-        console.log('click share', e);
-        const data = {
-          title: document.getElementById('title').value,
-          text: document.getElementById('text').value,
-          url: document.getElementById('url').value
-        };
-        navigator.share(data)
-          .then(e => {
-            console.log('share success', e);
-          })
-          .catch((err) => {
-            console.error('share error', err);
-          });
-      });
-    } else {
-      console.log('no navigator.share');
-    }
-  </script>
 
   <h2>Web Share Target</h2>
   <ul>

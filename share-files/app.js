@@ -16,7 +16,18 @@
 
     console.log(navigator.userAgent);
     console.log(window.location.href);
-    console.log('navigator.ServiceWorker: ' + navigator.serviceWorker);
+
+    document.getElementById('share').addEventListener('click', event => {
+      const files = document.getElementById('image').files;
+      console.log(files);
+      if (navigator.canShare && navigator.canShare({files})) {
+        navigator.share({files})
+          .then(() => console.log('File share successful'))
+          .catch(error => console.log('File share failed', error));
+      } else {
+        console.log('Your system does not support file share.'');
+      }
+    }
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').then(registration => {
