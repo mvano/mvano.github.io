@@ -25,7 +25,7 @@
           .then(() => console.log('File share successful'))
           .catch(error => console.log('File share failed', error));
       } else {
-        console.log('Your system does not support file sharing.'');
+        console.log('Your system does not support file sharing.');
       }
     });
 
