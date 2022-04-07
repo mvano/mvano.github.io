@@ -43,12 +43,12 @@ onmessage = event => {
   switch (event.data) {
     case 'showNotification':
       registration.showNotification('Persistent notification', {
-        icon: 'resources/11.png',
+        icon: '/sandbox/resources/11.png',
         body: 'From service worker'
       });
       break;
     case 'fetch':
-      fetch('resources/11.png');
+      fetch('/sandbox/resources/11.png');
       break;
     default:
       log('Unhandled message: ' + event.data);
