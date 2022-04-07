@@ -16,4 +16,13 @@
       "C3:40:0E:10:7D:C8:9B:19:5F:21:30:40:41:DA:7A:3C:5B:57:53:BF:28:57:11:44:62:52:9C:62:E7:7E:03:12"
     ]
   }
+}, {
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : {
+    "namespace": "android_app",
+    "package_name": "com.google.androidbrowserhelper.demos.twa_notification_delegation",
+    "sha256_cert_fingerprints": [
+      "C3:40:0E:10:7D:C8:9B:19:5F:21:30:40:41:DA:7A:3C:5B:57:53:BF:28:57:11:44:62:52:9C:62:E7:7E:03:12"
+    ]
+  }
 }]
