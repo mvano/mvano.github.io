@@ -60,7 +60,7 @@
 
       if (!navigator.serviceWorker.controller) {
         log('Registering service worker');
-        navigator.serviceWorker.register('sw-notification.js');
+        navigator.serviceWorker.register('sw.js');
       }
 
       $('isControlled').onclick = event => {
@@ -72,13 +72,13 @@
       }
 
       $('showPageNotification').onclick = event => {
-        new Notification('Page notification', {icon: 'resources/5.png'});
+        new Notification('Page notification', {icon: '/sandbox/resources/5.png'});
       }
 
       navigator.serviceWorker.ready.then(registration => {
         $('showPersistentNotificationFromDocument').onclick = event => {
           registration.showNotification('Persistent notification', {
-            icon: 'resources/1.png',
+            icon: '/sandbox/resources/1.png',
             body: 'From document'
           });
         }
