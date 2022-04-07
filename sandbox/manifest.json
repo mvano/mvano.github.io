@@ -1,6 +1,6 @@
 {
-  "name": "default manifest",
-  "short_name": "default manifest",
+  "name": "notifications",
+  "short_name": "notifications",
   "icons": [{
       "src": "/images/pokeball-192.png",
       "sizes": "192x192",
@@ -12,17 +12,8 @@
       "type": "image/png"
     }
   ],
-  "start_url": "index.html",
+  "start_url": "notifications.html",
   "display": "standalone",
   "background_color": "#3E4EB8",
-  "theme_color": "#3E4EB8",
-  "share_target": {
-    "action": "index.html",
-    "method": "GET",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
-  }
+  "theme_color": "#3E4EB8"
 }
