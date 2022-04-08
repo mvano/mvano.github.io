@@ -68,7 +68,7 @@
       }
 
       $('requestPermission').onclick = event => {
-        Notification.requestPermission(granted => alert('Permission status: ' + granted));
+        Notification.requestPermission(granted => log('Permission status: ' + granted));
       }
 
       $('showPageNotification').onclick = event => {
