@@ -9,18 +9,30 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="/images/pokeball-192.png">
+    <style>
+        body {
+          font-size:  11px;
+        }
+        pre {
+          font-family:  consolas, monospace;
+        }
+        .pageBlock {
+          margin:  1em 0;
+        }
+    </style>
   </head>
   <body>
     <pre id="output">Loading...</pre>
 
-    <div><button id="isControlled">Is this page controlled?</button></div>
-    <div><button id="requestPermission">Request permission</button></div>
-    <div><button id="showPageNotification">Show page notification</button></div>
-    <div><button id="showPersistentNotificationFromDocument">Show persistent notification from
+    <div class="pageBlock"><button id="isControlled">Is this page controlled?</button></div>
+    <div class="pageBlock"><button id="checkPermission">Check notification permission</button></div>
+    <div class="pageBlock"><button id="requestPermission">Request notification permission</button></div>
+    <div class="pageBlock"><button id="showPageNotification">Show page notification</button></div>
+    <div class="pageBlock"><button id="showPersistentNotificationFromDocument">Show persistent notification from
         document</button></div>
-    <div><button id="showPersistentNotificationFromWorker">Show persistent notification from service
+    <div class="pageBlock"><button id="showPersistentNotificationFromWorker">Show persistent notification from service
         worker</button></div>
-    <div><button id="fetchFromWorker">Fetch from service worker</button></div>
+    <!--div class="pageBlock"><button id="fetchFromWorker">Fetch from service worker</button></div-->
 
     <script>
       function $(id) {
@@ -67,8 +79,18 @@
         checkControlled();
       }
 
+      function checkPermission() {
+        log('Notification permission: ' + Notification.permission);
+      }
+
+      checkPermission();
+
+      $('checkPermission').onclick = event => {
+        checkPermission();
+      }
+
       $('requestPermission').onclick = event => {
-        Notification.requestPermission(granted => log('Permission status: ' + granted));
+        Notification.requestPermission(granted => log('Notification permission: ' + granted));
       }
 
       $('showPageNotification').onclick = event => {
@@ -89,13 +111,13 @@
             log(error);
           });
         }
-        $('fetchFromWorker').onclick = event => {
-          sendMessage('fetch').then(data => {
-            log(data);
-          }).catch(error => {
-            log(error);
-          });
-        }
+        // $('fetchFromWorker').onclick = event => {
+        //   sendMessage('fetch').then(data => {
+        //     log(data);
+        //   }).catch(error => {
+        //     log(error);
+        //   });
+        // }
       }).catch(error => {
         log('Error: ' + error.message);
       });
