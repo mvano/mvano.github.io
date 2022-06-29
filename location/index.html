@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="location">
+<meta name="theme-color" content="#3E4EB8">
+<title>location</title>
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="/images/pokeball-192.png">
+<style>
+body {
+  font-size:  11px;
+}
+pre {
+  font-family:  consolas, monospace;
+}
+.pageBlock {
+  margin:  1em 0;
+}
+</style>
+</head>
+<body>
+<pre id="output">Loading...</pre>
+
+<div class="pageBlock"><button id="getCurrentPosition">getCurrentPosition</button></div>
+
+<script>
+function $(id) {
+  return document.getElementById(id);
+}
+
+function log(message) {
+  console.log(message);
+  $('output').textContent += '\n' + message;
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+        .then((reg) => {
+          log('Service worker registered.', reg);
+        });
+  });
+}
+
+$('getCurrentPosition').onclick = event => {
+  navigator.geolocation.getCurrentPosition(position => {
+    log('latitude: ' + position.coords.latitude + ' longitude: ' + position.coords.longitude);
+  }, error = {
+    log('error code: ' + error.code + ' message: ' + message);
+  });
+}
+
+/*
+var watchID = null;
+function geoWatchMe(){
+    let status = document.getElementById('watch-status');
+    let button = document.getElementById('watch-me');
+    var invoke_counter = 0;
+    function success(position) {
+      const latitude  = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      invoke_counter ++;
+      status.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} ° Counter: ${invoke_counter}`;
+    }
+
+    function error(error) {
+        status.textContent = 'code: ' + error.code + '\n' + 'message: ' + error.message + '\n';
+    }
+
+    if (!watchID) {
+        var options = { timeout: 30000 };
+        watchID = navigator.geolocation.watchPosition(success, error, options);
+        button.textContent = "stop";
+    } else {
+        navigator.geolocation.clearWatch(watchID);
+        watchID = null;
+        button.textContent = "Watch my location";
+        status.textContent = ""
+        invoke_counter = 0;
+    }
+}
+document.querySelector('#watch-me').addEventListener('click', geoWatchMe);
+
+
+var watchID2 = null;
+function geoWatchMe2(){
+    let status = document.getElementById('watch-status2');
+    let button = document.getElementById('watch-me2');
+    var invoke_counter = 0;
+    function success(position) {
+      const latitude  = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      invoke_counter ++;
+      status.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} ° Counter: ${invoke_counter}`;
+    }
+
+    function error(error) {
+        status.textContent = 'code: ' + error.code + '\n' + 'message: ' + error.message + '\n';
+    }
+
+    if (!watchID2) {
+        var options = { timeout: 30000 };
+        watchID2 = navigator.geolocation.watchPosition(success, error, options);
+        button.textContent = "stop";
+    } else {
+        navigator.geolocation.clearWatch(watchID2);
+        watchID2 = null;
+        button.textContent = "Watch my location";
+        status.textContent = ""
+        invoke_counter = 0;
+    }
+}
+document.querySelector('#watch-me2').addEventListener('click', geoWatchMe2);
+*/
+</script>
+</body>
+</html>
