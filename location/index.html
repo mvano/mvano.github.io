@@ -48,8 +48,8 @@ if ('serviceWorker' in navigator) {
 $('getCurrentPosition').onclick = event => {
   navigator.geolocation.getCurrentPosition(position => {
     log('latitude: ' + position.coords.latitude + ' longitude: ' + position.coords.longitude);
-  }, error = {
-    log('error code: ' + error.code + ' message: ' + message);
+  }, error => {
+    log('error code: ' + error.code + ' message: ' + error.message);
   });
 }
 
