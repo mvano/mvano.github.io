@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>form elements</title>
+
+<style>
+.rect {
+  margin: .5em 0;
+}
+</style>
+</head>
+<body>
+  <b>form elements</b>
+  <form action="null" method="post">
+    <div class="rect">text</div>
+    <div class="rect"><input type="text"></div>
+
+    <div class="rect">email</div>
+    <div class="rect"><input type="email"></div>
+    
+    <div class="rect">password</div>
+    <div class="rect"><input type="password"></div>
+    
+    <div class="rect">url</div>
+    <div class="rect"><input type="url"></div>
+    
+    <div class="rect">number</div>
+    <div class="rect"><input type="number"></div>
+    
+    <div class="rect">tel</div>
+    <div class="rect"><input type="tel"></div>
+    
+    <div class="rect">search</div>
+    <div class="rect"><input type="search"></div>
+    
+    <div class="rect">range</div>
+    <div class="rect"><input type="range" min="0" max="100" step="1"></div>
+    
+    <div class="rect">range with datalist</div>
+    <div class="rect">
+      <input type="range" min="0" max="100" step="1" list="ticks">
+      <datalist id="ticks">
+        <option value="0"></option>
+        <option value="25"></option>
+        <option value="50"></option>
+        <option value="75"></option>
+        <option value="100"></option>
+      </datalist>
+    </div>
+          
+    <div class="rect">datetime-local</div>
+    <div class="rect"><input type="datetime-local"></div>
+      
+    <div class="rect">week</div>
+    <div class="rect"><input type="week"></div>
+      
+    <div class="rect">month</div>
+    <div class="rect"><input type="month"></div>
+      
+    <div class="rect">time</div>
+    <div class="rect"><input type="time"></div>
+      
+    <div class="rect">color</div>
+    <div class="rect"><input type="color"></div>
+      
+    <div class="rect">color with default value red and a datalist</div>
+    <div class="rect">
+      <input type="color" value="#ff0000" list="colors">
+      <datalist id="colors">
+        <option>#ff0000</option>
+        <option>#00ff00</option>
+        <option>#0000ff</option>
+        <option>#ffff00</option>
+        <option>#00ffff</option>
+        <option>#ff00ff</option>
+      </datalist>
+    </div>
+
+   <div class="rect">button</div>
+    <div class="rect"><input type="button" value="Button"></div>
+
+    <div class="rect">file</div>
+    <div class="rect"><input type="file"></div>
+
+    <div class="rect">file accept="image/*"</div>
+    <div class="rect"><input type="file" accept="image/*"></div>
+
+    <div class="rect">file accept="video/*"</div>
+    <div class="rect"><input type="file" accept="video/*"></div>
+
+    <div class="rect">file accept="audio/*"</div>
+    <div class="rect"><input type="file" accept="audio/*"></div>
+
+    <fieldset class="rect">
+      <legend>Chocolate</legend>
+      <label><input type="radio" name="radio" value="dark"> Dark</label>
+      <label><input type="radio" name="radio" value="milk"> Milk</label>
+      <label><input type="radio" name="radio" value="white"> White</label>
+      <label><input type="radio" name="radio" value="other"> Other</label>
+    </fieldset>
+  
+    <fieldset class="rect">
+      <legend>Chocolate</legend>
+      <label><input type="checkbox" name="checkbox" value="dark"> Dark</label>
+      <label><input type="checkbox" name="checkbox" value="milk"> Milk</label>
+      <label><input type="checkbox" name="checkbox" value="white"> White</label>
+      <label><input type="checkbox" name="checkbox" value="other"> Other</label>
+    </fieldset>
+    
+    <div class="rect">select</div>
+    <div class="rect">
+      <select>
+        <option>Dark</option>
+        <option>Milk</option>
+        <option>White</option>
+        <option>Other</option>
+    </select>
+    </div>
+    
+    <div class="rect">select with optgroup</div>
+    <div class="rect">
+      <select>
+        <optgroup label="Chocolate">
+          <option>Dark</option>
+          <option>Milk</option>
+          <option>White</option>
+          <option>Other</option>
+        </optgroup>
+        <optgroup label="Fruit">
+          <option>Apple</option>
+          <option>Banana</option>
+          <option>Mango</option>
+          <option>Orange</option>
+        </optgroup>
+    </select>
+    </div>
+    
+    <div class="rect">select with optgroup and multiple</div>
+    <div class="rect">
+      <select multiple="multiple" size="6">
+        <optgroup label="Chocolate">
+          <option>Dark</option>
+          <option>Milk</option>
+          <option>White</option>
+          <option>Other</option>
+        </optgroup>
+        <optgroup label="Fruit">
+          <option>Apple</option>
+          <option>Banana</option>
+          <option>Mango</option>
+          <option>Orange</option>
+        </optgroup>
+    </select>
+    </div>
+
+    <div class="rect">text input with datalist</div>
+    <div class="rect">
+    <input type="text" list="desserts" />
+    <datalist id="desserts">
+      <option>Dark chocolate</option>
+      <option>Milk chocolate</option>
+      <option>White chocolate</option>
+      <option>Other chocolate</option>
+      <option>Apple</option>
+      <option>Banana</option>
+      <option>Mango</option>
+      <option>Orange</option>
+    </datalist>
+    </div>
+    
+    <div class="rect">textarea</div>
+    <div class="rect"><textarea cols="30" rows="6"></textarea></div>
+    
+    <div class="rect">progress</div>
+    <div class="rect"><progress max="100" value="75">75/100</progress></div>
+    
+    <div class="rect">meter</div>
+    <div class="rect"><meter min="0" max="100" value="75" low="33" high="66" optimum="50">75</meter></div>
+  
+    <div class="rect">submit</div>
+    <div class="rect"><input type="submit"></div>
+
+    <div class="rect">reset</div>
+    <div class="rect"><input type="reset"></div>
+    
+ </form>
+</body>
+</html>

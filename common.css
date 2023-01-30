@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
 body {
-  font: 0.8em/1.2 Roboto, Helvetica, Arial, sans-serif;
+  font: 0.8em/1.4 'Open Sans', Roboto, Helvetica, Arial, sans-serif;
   color: black;
   background-color: white;
 }
