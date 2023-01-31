@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="mvano">
+  <meta name="theme-color" content="#3E4EB8">
+
+  <title>video - multiple sources</title>
+
+  <link rel="stylesheet" href="common.css">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="/images/pokeball-192.png">
+</head>
+<body>
+  <h1>video - multiple sources</h1>
+  <!-- Using multiple sources as fallbacks for a video tag -->
+  <!-- 'Elephants Dream' by Orange Open Movie Project Studio, licensed under CC-3.0, hosted by archive.org -->
+  <!-- Poster hosted by Wikimedia -->
+  <video
+    width="620"
+    controls
+    poster="https://upload.wikimedia.org/wikipedia/commons/e/e8/Elephants_Dream_s5_both.jpg">
+    <source
+      src="https://archive.org/download/ElephantsDream/ed_hd.ogv"
+      type="video/ogg" />
+    <source
+      src="https://archive.org/download/ElephantsDream/ed_hd.avi"
+      type="video/avi" />
+    <source
+      src="https://archive.org/download/ElephantsDream/ed_1024_512kb.mp4"
+      type="video/mp4" />
+
+    Sorry, your browser doesn't support embedded videos, but don't worry, you can
+    <a href="https://archive.org/download/ElephantsDream/ed_1024_512kb.mp4">
+      download the MP4
+    </a>
+    and watch it with your favorite video player!
+  </video>
+</body>
+</html>
